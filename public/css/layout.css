@@ -1,0 +1,38 @@
+.page_header h1 {
+	margin-bottom: 0;
+	padding: 1em 0;
+	text-align: center;
+}
+.navbar ul {
+	margin: 0;
+}
+
+.navbar li {
+	display: block;
+	float: left;
+	padding: 0.25em;
+	padding-left: 0.75em;
+	padding-right: 0.75em;
+	padding-top: 0.5em;
+}
+
+.mainbody {
+	padding: 1em;
+	padding-bottom: 2em;
+}
+
+.visuallyhidden {
+	position: absolute;
+	left: -9999em;
+}
+
+.mainbody h1{
+	text-align: center;
+}
+
+footer {
+	padding: 2em;
+	text-align: center;
+	margin-bottom: 2em;
+}
+

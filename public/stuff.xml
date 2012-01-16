@@ -1,0 +1,21 @@
+<model>
+  <serverList>
+    <server id="1">ServerA</server>
+    <server id="2">ServerB</server>
+    <server id="3">ServerC</server>
+  </serverList>
+  <storageList>
+    <storage id="1">StorageA</storage>
+    <storage id="2">StorageB</storage>
+  </storageList>
+  <connectionList>
+  	<connection>
+  		<from>1</from>
+  		<to>2</to>
+  	</connection>
+  	<connection>
+  		<from>2</from>
+  		<to>2</to>
+  	</connection>
+  </connectionList>
+</model>

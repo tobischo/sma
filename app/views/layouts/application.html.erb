@@ -1,14 +1,26 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Sanmgmtappl</title>
-  <%= stylesheet_link_tag    "application" %>
-  <%= javascript_include_tag "application" %>
+<html lang="en">
+<head class="html5">
+  <meta charset="utf-8" />
   <%= csrf_meta_tags %>
+  <title>SAN Management Appliance</title>
+  
+  <%= stylesheet_link_tag    "/css/style", "/css/layout", "/css/960" %>
+  <%= javascript_include_tag "/js/jquery", "/js/processing" %>  
+  
+  <!-- Google Web Fonts - Droid Sans support -->
+  <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
+  
 </head>
-<body>
+<body class="container_12">
+  <header class="grid_12 page_header">
+    <h1>SAN Management Appliance</h1>
+  </header>
 
 <%= yield %>
 
+  <footer class="grid_12">
+    Created by Tobias Schoknecht
+  </footer>
 </body>
 </html>
