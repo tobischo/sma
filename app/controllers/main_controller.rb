@@ -1,8 +1,12 @@
 class MainController < ApplicationController
   
-  http_basic_authenticate_with :name => "sanmgmt", :password => "1", :except => :index
-  
+  skip_before_filter :require_login, :only => [:login]
+  session :on
+
   def index
+  end
+  
+  def login
   end
 
 end

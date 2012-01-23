@@ -1,4 +1,6 @@
 Sanmgmtappl::Application.routes.draw do
+  get "main/login"
+
   get "main/index"
   
   root :to => "main#index"
