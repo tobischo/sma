@@ -3,21 +3,21 @@
       <h1>Login</h1>
     </header>
     <div>
-      <form>
+      <%= form_tag :controller => :login, :action => :create do %>
         <table>
           <tr>
             <td><label>Name</label></td>
-            <td><input size="20" tabindex="1" title="Enter the login name here." type="text" value="" /></td>
+            <td><%= text_field_tag 'name', '', :size => 20, :tabindex => 2 %></td>
           </tr>	
           <tr>
             <td><label>Password</label></td>
-            <td><input size="20" tabindex="2" title="Enter login password here." type="password" value="" /></td>
+            <td><%= password_field_tag 'password', '', :size => 20, :tabindex => 2 %></td>
           </tr>
           <tr>
             <td></td>
-            <td><input size="20" tabindex="3" title="Press Enter or Click to login." type="submit" value="Login" /></td>
+            <td><%= submit_tag 'Login', :size => 20, :tabindex => 3 %></td>
           </tr>
         </table>
-      </form>
+      <% end%>
     </div>
   </section>

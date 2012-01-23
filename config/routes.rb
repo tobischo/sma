@@ -1,4 +1,8 @@
 Sanmgmtappl::Application.routes.draw do
+  post "login/create"
+
+  get "login/destroy"
+
   get "main/login"
 
   get "main/index"
