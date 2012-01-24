@@ -1,7 +1,15 @@
   <section class="mainbody grid_4 prefix_4 suffix_4">
+  	
+  <% flash.each do |key, value| %>
+    <section class="flash <%= key %>">
+      <%= value %> 
+    </section>
+  <% end%>
+     	
     <header>
       <h1>Login</h1>
     </header>
+    <div>
     <div>
       <%= form_tag :controller => :login, :action => :create do %>
         <table>

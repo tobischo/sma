@@ -65,3 +65,18 @@ a:focus {
 	text-shadow: #EF5858 0px 0px 3px;
 }
 
+.error {
+	border-top: 1px #DB4A4A solid;
+	border: 1px solid;
+	border-bottom: 1px solid;
+	box-shadow: #000 0px 1px 1px;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+	background-color: 	#e0383a;
+	color: #FFF;
+}
+
+.flash {
+	border-color: #A80803;
+	border-bottom-color: #8C0002;
+}

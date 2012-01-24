@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   
     def require_login
       unless logged_in?
-        flash[:error] = "Login required to access this section"
+        flash[:error] = "The requested site requires login."
         redirect_to :controller => :main, :action => :login
       end
     end
@@ -19,5 +19,5 @@ class ApplicationController < ActionController::Base
     def current_user
       @_current_user ||= session[:current_user_id] && User.find(session[:current_user_id])
     end
-
+ 
 end

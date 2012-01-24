@@ -1,42 +1,48 @@
-require 'digest/sha1'
+require 'digest'
 
 class User < ActiveRecord::Base
-  validates_length_of :name, :within => 3..40
-  validates_length_of :password, :within => 5..40
-  validates_presence_of :name, :password, :password_confirmation, :salt
-  validates_uniqueness_of :name
-  validates_confirmation_of :password
   
+  attr_accessor :password
   attr_protected :id, :salt
+  attr_accessible :name, :password, :password_confirmation, :loginFails
   
-  attr_accessor :password, :password_confirmation
+  validates :name,     :presence     => true,
+                       :length       => {:within => 3..50},
+                       :uniqueness   => true
+                   
+  validates :password, :presence     => true,
+                       :confirmation => true,
+                       :length       => {:within => 6..40}
+                       
+  before_save :encrypt_password
   
-  def password=(pass)
-    @passwd=pass
-    self.salt = User.random_string(16) if !self.salt?
-    self.encrypted_password = User.encrypt(@passwd, self.salt)
+  def has_password?(submitted_password)
+    encrypted_password == encrypt(submitted_password)
   end
   
-
-  
-  def self.authenticate(name, pass)
-    u=find(:first, :conditions["name = ?", name])
+  def self.authenticate(name, submitted_password)
+    u = find_by_name(name)
     return nil if u.nil?
-    return u if User.encrypt(pass, u.salt)==u.password
-    nil
+    return u if u.has_password?(submitted_password)
   end
   
-  protected
+  private
   
-  def self.encrypt(pass, salt)
-    Digest::SHA1.hexdigest(pass+salt)
-  end
+    def encrypt_password
+      self.salt = make_salt unless has_password?(password)
+      self.encrypted_password = encrypt(password)
+    end
   
-  def self.random_string(len)
-    chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
-    newpass = ""
-    1.upto(len){ |i| newpass << chars[rand(chars.size-1)] }
-    return newpass
-  end
+    def encrypt(string)
+      secure_hash("#{salt}--#{string}")
+    end
+  
+    def make_salt
+      secure_hash("#{Time.now.utc}--#{password}")
+    end
+    
+    def secure_hash(string)
+      Digest::SHA2.hexdigest(string)
+    end 
   
 end
