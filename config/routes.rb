@@ -7,7 +7,7 @@ Sanmgmtappl::Application.routes.draw do
 
   get "main/index"
   
-  root :to => "main#index"
+  root :to => "main#login"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
