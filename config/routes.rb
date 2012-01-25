@@ -1,4 +1,6 @@
 Sanmgmtappl::Application.routes.draw do
+  get "xml/generate"
+
   get "user/settings"
 
   post "user/changepassword"

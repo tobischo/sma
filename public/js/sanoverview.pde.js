@@ -1,12 +1,21 @@
 //canvas size
 int cWidth = 780;
 int cHeight = 500;
-
 //xml config
-String xmlUrl = "/stuff.xml";
-XMLElement xml = new XMLElement(this,xmlUrl);
+XMLElement xml;
+
+$.ajax({
+  async: false,
+  cache: false,
+  url: '/xml/generate',
+  success: function(res){
+    xml = XMLElement.parse(res);
+  }
+});
+
 ArrayList sanelements = new ArrayList();
 ArrayList connectionelements = new ArrayList();
+
 
 //icon position
 HashMap widthMap = new HashMap();
