@@ -1,21 +1,16 @@
   <section class="mainbody grid_4 prefix_4 suffix_4">
   	
-  <% flash.each do |key, value| %>
-    <section class="flash <%= key %>">
-      <%= value %> 
-    </section>
-  <% end%>
+  <%= render :partial => 'shared/flash', :locals => {:flash => flash} %>
      	
     <header>
       <h1>Login</h1>
     </header>
-    <div>
-    <div>
+    <section>
       <%= form_tag :controller => :login, :action => :create do %>
         <table>
           <tr>
             <td><label>Name</label></td>
-            <td><%= text_field_tag 'name', '', :size => 20, :tabindex => 2 %></td>
+            <td><%= text_field_tag 'name', '', :size => 20, :tabindex => 1 %></td>
           </tr>	
           <tr>
             <td><label>Password</label></td>
@@ -27,5 +22,5 @@
           </tr>
         </table>
       <% end%>
-    </div>
+    </section>
   </section>

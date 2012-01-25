@@ -6,6 +6,7 @@ class MainController < ApplicationController
   end
   
   def login
+    render :layout => 'login'
   end
 
 end

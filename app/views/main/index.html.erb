@@ -1,16 +1,8 @@
-  <nav class="navbar grid_12">
-    <h1 class="visuallyhidden">Navigation</h1>
-    <ul class="clearfix">
-      <li><a href="#">SAN Overview</a></li>
-      <li><a href="#">Add Switch</a></li>
-      <li><%= link_to "Logout", :controller => :login, :action => :destroy %></li>
-    </ul>
-  </nav>
   <section class="mainbody grid_10 prefix_1 suffix_1">
     <header>
       <h1>SAN Overview</h1>
     </header> 
-    <div>   
+    <section>   
       <canvas data-processing-sources="/js/sanoverview.pde.js"></canvas>  
-    </div>
+    </section>
   </section>

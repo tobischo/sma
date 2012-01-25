@@ -1,4 +1,8 @@
 Sanmgmtappl::Application.routes.draw do
+  get "user/settings"
+
+  post "user/changepassword"
+
   post "login/create"
 
   get "login/destroy"
