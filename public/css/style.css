@@ -73,10 +73,24 @@ a:focus {
 	padding-top: 0.5em;
 	padding-bottom: 0.5em;
 	background-color: 	#e0383a;
+	border-color: #A80803;
+	border-bottom-color: #8C0002;
+	color: #FFF;
+}
+
+.notice {
+	border-top: 1px #59DB4A solid;
+	border: 1px solid;
+	border-bottom: 1px solid;
+	box-shadow: #000 0px 1px 1px;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+	background-color: 	#22CF0A;
+	border-color: #03A80E;
+	border-bottom-color: #178C00;
 	color: #FFF;
 }
 
 .flash {
-	border-color: #A80803;
-	border-bottom-color: #8C0002;
+
 }

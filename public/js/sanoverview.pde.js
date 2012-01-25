@@ -3,7 +3,7 @@ int cWidth = 780;
 int cHeight = 500;
 
 //xml config
-String xmlUrl = "stuff.xml";
+String xmlUrl = "/stuff.xml";
 XMLElement xml = new XMLElement(this,xmlUrl);
 ArrayList sanelements = new ArrayList();
 ArrayList connectionelements = new ArrayList();
@@ -15,11 +15,11 @@ widthMap.put("server", 80);
 
 //icons
 int iconSize = 80;
-String storage = "img/hard_disk.png";
-String storageH = "img/hard_diskHover.png";
-String server = "img/server.png";
-String serverH = "img/serverHover.png";
-String trash = "img/trash.png";
+String storage = "/img/hard_disk.png";
+String storageH = "/img/hard_diskHover.png";
+String server = "/img/server.png";
+String serverH = "/img/serverHover.png";
+String trash = "/img/trash.png";
 PImage trashIco = loadImage(trash);
 HashMap iconMap = new HashMap();
 iconMap.put("storage",new Array(loadImage(storage),loadImage(storageH)));

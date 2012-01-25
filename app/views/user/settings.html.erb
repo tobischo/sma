@@ -1,0 +1,30 @@
+  <section class="mainbody grid_4 prefix_4 suffix_4">
+  	
+  	<%= render :partial => 'shared/flash', :locals => {:flash => flash} %>
+  	
+    <header>
+      <h1>User settings</h1>
+    </header> 
+    <section>   
+       <%= form_tag :controller => :user, :action => :changepassword do %>
+        <table>
+          <tr>
+            <td><label>Current Password</label></td>
+            <td><%= password_field_tag 'currentPassword', '', :size => 20, :tabindex => 1 %></td>
+          </tr>	
+          <tr>
+            <td><label>New Password</label></td>
+            <td><%= password_field_tag 'newPassword', '', :size => 20, :tabindex => 2 %></td>
+          </tr>
+          <tr>
+            <td><label>Confirmation</label></td>
+            <td><%= password_field_tag 'newPassword_confirmation', '', :size => 20, :tabindex => 3 %></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><%= submit_tag 'Submit', :size => 20, :tabindex => 3 %></td>
+          </tr>
+        </table>
+      <% end%>
+    </section>
+  </section>
