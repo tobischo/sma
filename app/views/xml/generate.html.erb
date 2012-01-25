@@ -1,0 +1,20 @@
+<model>
+  <serverList>
+    <% @server.each do |key, value| %>
+    <server id="<%= key %>"><%= value%></server>
+    <% end %>
+  </serverList>
+  <storageList>
+    <% @storage.each do |key,value| %>
+    <storage id="<%= key %>"><%= value%></storage>
+    <% end %>
+  </storageList>
+  <connectionList>
+    <% @connection.each do |value| %>
+    <connection>
+      <from><%= value[:from] %></from>
+      <to><%= value[:to] %></to>
+    </connection>
+    <% end %>
+  </connectionList>
+</model>
