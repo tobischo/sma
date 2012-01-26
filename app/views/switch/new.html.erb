@@ -1,0 +1,34 @@
+  <section class="mainbody grid_4 prefix_4 suffix_4">
+  	
+  <%= render :partial => 'shared/flash', :locals => {:flash => flash} %>
+     	
+    <header>
+      <h1>Add new switch</h1>
+    </header>
+    <section>
+      <%= form_tag :controller => :switch, :action => :add do %>
+        <table>
+          <tr>
+            <td><label>Name</label></td>
+            <td><%= text_field_tag 'name', '', :size => 20, :tabindex => 1 %></td>
+          </tr>	
+          <tr>
+            <td><label>Address</label></td>
+            <td><%= text_field_tag 'address', '', :size => 20, :tabindex => 2 %></td>
+          </tr>
+          <tr>
+            <td><label>Type</label></td>
+            <td><%= text_field_tag 'switchType', '', :size => 20, :tabindex => 3 %></td>
+          </tr>
+          <tr>
+            <td><label>Description</label></td>
+            <td><%= text_area_tag 'description', '',:rows => 10, :cols => 20, :tabindex => 5 %></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><%= submit_tag 'Add', :size => 20, :tabindex => 5 %></td>
+          </tr>
+        </table>
+      <% end%>
+    </section>
+  </section>

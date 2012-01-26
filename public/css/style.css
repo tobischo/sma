@@ -72,7 +72,7 @@ a:focus {
 	box-shadow: #000 0px 1px 1px;
 	padding-top: 0.5em;
 	padding-bottom: 0.5em;
-	background-color: 	#e0383a;
+	background-color: #e0383a;
 	border-color: #A80803;
 	border-bottom-color: #8C0002;
 	color: #FFF;
@@ -93,4 +93,17 @@ a:focus {
 
 .flash {
 
+}
+
+tr.head{
+	background-color: #e0383a;
+	color: #FFF;
+}
+
+a {
+	color: #000;	
+}
+
+a:hover {
+	text-shadow: #EF5858 0px 0px 3px;
 }

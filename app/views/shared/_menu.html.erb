@@ -1,8 +1,8 @@
   <nav class="navbar grid_12">
     <h1 class="visuallyhidden">Navigation</h1>
     <ul class="clearfix">
-      <li><%= link_to "SAN Overview", :controller => :main, :action => :index %></li>
-      <li><a href="#">Add Switch</a></li>
+      <li><%= link_to "Overview", :controller => :main, :action => :index %></li>
+      <li><%= link_to "Switch", :controller => :switch, :action => :show %></li>
       <li><%= link_to "User Settings", :controller => :user, :action => :settings %>
       <li><%= link_to "Logout", :controller => :login, :action => :destroy %></li>
     </ul>
