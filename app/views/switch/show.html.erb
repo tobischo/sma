@@ -1,0 +1,29 @@
+  <section class="mainbody grid_10 prefix_1 suffix_1">
+  	
+  <%= render :partial => 'shared/flash', :locals => {:flash => flash} %>
+     	
+    <header>
+      <h1>Switch overview</h1>
+    </header>
+    <section>
+      <%= link_to "Add new Switch", :controller => :switch, :action => :new %>
+      <table>
+        <tr class="head">
+          <td class="grid_2">Name</td>
+          <td class="grid_2">Address</td>
+          <td class="grid_2">Type</td>
+          <td class="grid_2">Description</td>
+          <td class="grid_1">Remove</td>
+        </tr>
+      <% @switches.each do |switch| %>
+        <tr>
+          <td class="grid_2"><%= switch.name %></td>
+          <td class="grid_2"><%= switch.address %></td>
+          <td class="grid_2"><%= switch.switchType %></td>
+          <td class="grid_2"><%= switch.description %></td>
+          <td class="grid_1"><%= link_to "Remove", :controller => :switch, :action => :remove, :id => switch.id %></td>
+        </tr>
+      <% end %>
+      </table>
+    </section>
+  </section>

@@ -1,4 +1,12 @@
 Sanmgmtappl::Application.routes.draw do
+  post "switch/add"
+
+  match "switch/remove/:id" => "switch#remove"
+
+  get "switch/new"
+
+  get "switch/show"
+
   get "xml/generate"
 
   get "user/settings"
