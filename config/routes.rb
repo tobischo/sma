@@ -3,7 +3,7 @@ Sanmgmtappl::Application.routes.draw do
 
   get "zone/new"
 
-  get "zone/remove"
+  get "zone/remove" => "zone#remove"
 
   get "zone/edit"
 
@@ -11,7 +11,7 @@ Sanmgmtappl::Application.routes.draw do
 
   get "connection/show"
 
-  get "connection/remove"
+  match "connection/remove/:id" => "connection#remove"
 
   get "connection/add"
 
@@ -19,11 +19,11 @@ Sanmgmtappl::Application.routes.draw do
 
   get "storage/show"
 
-  get "storage/remove"
+  match "storage/remove/:id" => "storage#remove"
 
   get "server/show"
 
-  get "server/remove"
+  match "server/remove/:id" => "server#remove"
 
   post "switch/add"
 

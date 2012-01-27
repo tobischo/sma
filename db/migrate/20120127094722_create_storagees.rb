@@ -1,6 +1,6 @@
-class CreateStoragees < ActiveRecord::Migration
+class CreateStorages < ActiveRecord::Migration
   def change
-    create_table :storagees do |t|
+    create_table :storages do |t|
       t.string :name
       t.string :wwn
 

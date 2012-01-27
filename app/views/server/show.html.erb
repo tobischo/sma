@@ -1,2 +1,26 @@
-<h1>Server#show</h1>
-<p>Find me in app/views/server/show.html.erb</p>
+  <section class="mainbody grid_7 prefix_3 suffix_2">
+  	
+  <%= render :partial => 'shared/flash', :locals => {:flash => flash} %>
+     	
+    <header>
+      <h1>Server overview</h1>
+    </header>
+    <section>
+      <table>
+        <tr class="head">
+          <td class="grid_2">Name</td>
+          <td class="grid_2">WWN</td>
+          <td class="grid_1">OS</td>
+          <td class="grid_1">Remove</td>
+        </tr>
+      <% @servers.each do |server| %>
+        <tr>
+          <td class="grid_2"><%= server.name %></td>
+          <td class="grid_2"><%= server.wwn %></td>
+          <td class="grid_1"><%= server.os %></td>
+          <td class="grid_1"><%= link_to "Remove", :controller => :server, :action => :remove, :id => switch.id, :confirm => 'Are you sure?'%></td>
+        </tr>
+      <% end %>
+      </table>
+    </section>
+  </section>
