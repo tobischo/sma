@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class StorageesTest < ActiveSupport::TestCase
+class StoragesTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
