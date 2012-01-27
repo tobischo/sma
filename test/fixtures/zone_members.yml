@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  refId: 1
+  elementType: MyString
+
+two:
+  refId: 1
+  elementType: MyString
