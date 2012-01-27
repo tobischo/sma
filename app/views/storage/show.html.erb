@@ -1,0 +1,24 @@
+  <section class="mainbody grid_6 prefix_3 suffix_3">
+  	
+  <%= render :partial => 'shared/flash', :locals => {:flash => flash} %>
+     	
+    <header>
+      <h1>Storage overview</h1>
+    </header>
+    <section>
+      <table>
+        <tr class="head">
+          <td class="grid_2">Name</td>
+          <td class="grid_2">WWN</td>
+          <td class="grid_1">Remove</td>
+        </tr>
+      <% @storages.each do |storage| %>
+        <tr>
+          <td class="grid_2"><%= storage.name %></td>
+          <td class="grid_2"><%= storage.wwn %></td>
+          <td class="grid_1"><%= link_to "Remove", :controller => :storage, :action => :remove, :id => switch.id, :confirm => 'Are you sure?'%></td>
+        </tr>
+      <% end %>
+      </table>
+    </section>
+  </section>
