@@ -32,6 +32,10 @@ Sanmgmtappl::Application.routes.draw do
   get "switch/new"
 
   get "switch/show"
+  
+  match "switch/edit/:id" => "switch#edit"
+  
+  match "switch/update/:id" => "switch#update"
 
   get "xml/generate"
 

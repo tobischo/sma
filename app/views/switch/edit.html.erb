@@ -3,38 +3,38 @@
   <%= render :partial => 'shared/flash', :locals => {:flash => flash} %>
      	
     <header>
-      <h1>Add new switch</h1>
+      <h1>Edit switch</h1>
     </header>
     <section>
-      <%= form_tag :controller => :switch, :action => :add do %>
+      <%= form_tag :controller => :switch, :action => :update, :id => params[:id] do %>
         <table>
           <tr>
             <td><label>Name</label></td>
-            <td><%= text_field_tag 'name', '', :size => 20, :tabindex => 1 %></td>
+            <td><%= text_field_tag 'name', @switch.name, :size => 20, :tabindex => 1 %></td>
           </tr>	
           <tr>
             <td><label>Address</label></td>
-            <td><%= text_field_tag 'address', '', :size => 20, :tabindex => 2 %></td>
+            <td><%= text_field_tag 'address', @switch.address, :size => 20, :tabindex => 2 %></td>
           </tr>
           <tr>
             <td><label>Type</label></td>
-            <td><%= text_field_tag 'switchType', '', :size => 20, :tabindex => 3 %></td>
+            <td><%= text_field_tag 'switchType', @switch.switchType, :size => 20, :tabindex => 3 %></td>
           </tr>
           <tr>
             <td><label>Description</label></td>
-            <td><%= text_area_tag 'description', '',:rows => 10, :cols => 20, :tabindex => 4 %></td>
+            <td><%= text_area_tag 'description', @switch.description,:rows => 10, :cols => 20, :tabindex => 4 %></td>
           </tr>
           <tr>
             <td><label>Loginname</label></td>
-            <td><%= text_field_tag 'loginname', '', :size => 20, :tabindex => 5 %></td>
+            <td><%= text_field_tag 'loginname', @switch.username, :size => 20, :tabindex => 5 %></td>
           </tr>
           <tr>
             <td><label>Password</label></td>
-            <td><%= password_field_tag 'loginpassword', '', :size => 20, :tabindex => 6 %></td>
+            <td><%= password_field_tag 'loginpassword', @switch.password, :size => 20, :tabindex => 6 %></td>
           </tr>
           <tr>
             <td><label>Firmware Version</label></td>
-            <td><%= text_field_tag 'fwVersion', '', :size => 20, :tabindex => 7 %></td>
+            <td><%= text_field_tag 'fwVersion', @switch.fwVersion, :size => 20, :tabindex => 7 %></td>
           </tr>
           <tr>
             <td></td>
