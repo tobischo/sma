@@ -33,6 +33,7 @@ PImage trashIco = loadImage(trash);
 HashMap iconMap = new HashMap();
 iconMap.put("storage",new Array(loadImage(storage),loadImage(storageH)));
 iconMap.put("server", new Array(loadImage(server),loadImage(serverH)));
+commitStr = "Commit";
 
 //temp connection
 boolean mode = false;
@@ -50,8 +51,7 @@ void setup(){
 
   drawElements();
 	  
-  size(cWidth,cHeight);  
-  
+  size(cWidth,cHeight);   
 }  
   
 void draw(){
@@ -63,20 +63,20 @@ void draw(){
 
 function initializeElementList(){
   for(int i = 0; i < xml.getChildCount(); i++){
-  	XMLElement elements = xml.getChild(i);
+    XMLElement elements = xml.getChild(i);
   	
-	for(int j = 0; j < elements.getChildCount(); j++){
+    for(int j = 0; j < elements.getChildCount(); j++){
       XMLElement element = elements.getChild(j);
       
       if(elements.getName() == "serverList" || elements.getName() == "storageList"){
-	    String eName = element.getName();
-	    String eAtt = element.getStringAttribute("id"); 
+        String eName = element.getName();
+        String eAtt = element.getStringAttribute("id"); 
 	    
-	    String eContent = element.getContent();
+        String eContent = element.getContent();
 	    
-	    sanelements.add(new SANElement(eName, eAtt, eContent, widthMap.get(eName), 50+j*150));
-	  }
-	  else if(elements.getName() == "connectionList"){
+        sanelements.add(new SANElement(eName, eAtt, eContent, widthMap.get(eName), 50+j*150));
+      }
+      else if(elements.getName() == "connectionList"){
         String eFromId = element.getChild(0).getContent();
         String eToId = element.getChild(1).getContent();  
         
@@ -105,14 +105,16 @@ function drawElements(){
   }
   
   for(int i = 0; i < connectionelements.size(); i++){
-  	Connection c = (Connection) connectionelements.get(i);
-  	c.drawElement();
+    Connection c = (Connection) connectionelements.get(i);
+    c.drawElement();
   }
 
   stroke(0);
   
   textAlign(LEFT);
   text("Server",100,20);
+
+  text(commitStr,225,20);
   
   textAlign(RIGHT);
   text("Storage",cWidth-120,20);
@@ -122,13 +124,39 @@ function drawTempConn(){
   noFill();
  
   if(mode == 1){
-	if(connE.getType() == "server"){
-	  bezier(tempX,tempY,abs(tempX-mouseX)*1/4+tempX,tempY,abs(tempX-mouseX)*3/4+tempX,mouseY,mouseX,mouseY);
-	}
-	else if(connE.getType() == "storage"){
-	  bezier(mouseX,mouseY,tempX-abs(tempX-mouseX)*3/4,mouseY,tempX-abs(tempX-mouseX)*1/4,tempY,tempX,tempY);
-	}
+    if(connE.getType() == "server"){
+      bezier(tempX,tempY,abs(tempX-mouseX)*1/4+tempX,tempY,abs(tempX-mouseX)*3/4+tempX,mouseY,mouseX,mouseY);
+    }
+    else if(connE.getType() == "storage"){
+      bezier(mouseX,mouseY,tempX-abs(tempX-mouseX)*3/4,mouseY,tempX-abs(tempX-mouseX)*1/4,tempY,tempX,tempY);
+    }
   }
+}
+
+function sendConnectionUpdate(){
+  String xml = "<model>\n  <connectionList>\n";
+
+  for(int i = connectionelements.size()-1; i >= 0; i--){
+    Connection c = (Connection) connectionelements.get(i);
+	
+    xml += "    <connection>\n      <from>"+c.fromId+"</from>\n      <to>"+c.toId+"</to>\n    </connection>\n";
+
+  }
+
+  xml += "  </connectionList>\n</model>";
+
+  $.ajax({
+    type: 'POST',
+    url: '/xml/update',
+    data: { 
+      inputxml: escape(xml)
+    },
+    contentType: 'text/XML',
+    processData: false,
+    async: false,
+    cache: false
+  });
+
 }
 
 class SANElement{
@@ -276,11 +304,16 @@ void mouseClicked(){
   float bezierY = 0;
   
   for(int i = connectionelements.size()-1; i >= 0; i--){
-	Connection c = (Connection) connectionelements.get(i);
+    Connection c = (Connection) connectionelements.get(i);
 	
-	if(c.getMarked() && abs((cWidth/2)-mouseX) <= 10 && abs(20-mouseY) <= 10){
-	  connectionelements.remove(c);
-	}
+    if(c.getMarked() && abs((cWidth/2)-mouseX) <= 10 && abs(20-mouseY) <= 10){
+      connectionelements.remove(c);
+    }
+  }
+
+  if(abs(250-mouseX) <= 25 && abs(15-mouseY) <= 5){
+    sendConnectionUpdate();
+    //alert(mouseX + " " + mouseY);
   }
 
   if(!mode){
@@ -301,11 +334,11 @@ void mouseClicked(){
       }
     }
 	
-	for(int i = 0; i < connectionelements.size(); i++){
-	  if(!stopConnLoop && !mode){
-	    Connection c = (Connection) connectionelements.get(i);
-	  
-	    for(int j = 0; j < sanelements.size(); j++){
+    for(int i = 0; i < connectionelements.size(); i++){
+      if(!stopConnLoop && !mode){
+        Connection c = (Connection) connectionelements.get(i);
+  
+        for(int j = 0; j < sanelements.size(); j++){
           SANElement e = (SANElement) sanelements.get(j);
       
           if(e.getId() == c.fromId && e.getType() == "server"){
@@ -318,48 +351,48 @@ void mouseClicked(){
           }      
         }
 	  
-	    for(int j = 1; j <= 200; j++){
-	      bezierX = bezierPoint(xStart,xStart+abs(xStop-xStart)*1/4,xStart+abs(xStop-xStart)*3/4,xStop, j/100);
-	      bezierY = bezierPoint(yStart,yStart,yStop,yStop, j/100);
+        for(int j = 1; j <= 200; j++){
+          bezierX = bezierPoint(xStart,xStart+abs(xStop-xStart)*1/4,xStart+abs(xStop-xStart)*3/4,xStop, j/100);
+          bezierY = bezierPoint(yStart,yStart,yStop,yStop, j/100);
 		
-		  if(abs(bezierX-mouseX) <= 10 && abs(bezierY-mouseY) <= 10){
-		    if(c.getMarked()){
+          if(abs(bezierX-mouseX) <= 10 && abs(bezierY-mouseY) <= 10){
+            if(c.getMarked()){
               c.setMarked(false);
-			}
-			else{
-			  c.setMarked(true);
-			}
+            }
+            else{
+              c.setMarked(true);
+            }
 
-		    stopConnLoop = true;
+            stopConnLoop = true;
 			
-			break;
-		  }
-  	    }
-	  }
-	}
+            break;
+          }
+        }
+      }
+    }
   }
   else{
-  	for(int i = 0; i < sanelements.size(); i++){
+    for(int i = 0; i < sanelements.size(); i++){
       SANElement e = (SANElement) sanelements.get(i);
       if(abs(e.getXPos()+40-mouseX) <= 40 && abs(e.getYPos()+40-mouseY) <= 40){
       	if(e.getType() != connE.getType()){
       	  if(e.getType() == "server"){
-      	  	Connection nConn = new Connection(e.getId(),connE.getId());
+            Connection nConn = new Connection(e.getId(),connE.getId());
           }
           else if(e.getType() == "storage"){
-          	Connection nConn = new Connection(connE.getId(),e.getId());
+            Connection nConn = new Connection(connE.getId(),e.getId());
           }
           
           for(int j = 0; j < connectionelements.size(); j++){
-          	Connection c = (Connection) connectionelements.get(j);
+            Connection c = (Connection) connectionelements.get(j);
           	
-          	if(nConn.compareTo(c)){
-          	  newConn = false;
-          	}
+            if(nConn.compareTo(c)){
+              newConn = false;
+            }
           }
           
           if(newConn){
-          	connectionelements.add(nConn);
+            connectionelements.add(nConn);
           }
         }
       }

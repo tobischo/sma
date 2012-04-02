@@ -13,9 +13,3 @@ class DefaultDriver
 		@session.close
 	end
 end
-
-#s = DefaultDriver.new("dummyswitch","switchdummy","tobischo.de",8443)
-#
-#puts s.nsshow
-#
-#s.finalize
