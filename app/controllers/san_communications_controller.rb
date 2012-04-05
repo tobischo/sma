@@ -9,7 +9,7 @@ class SanCommunicationsController < ApplicationController
     host = switch.address.split(':')[0]
     port = switch.address.split(':')[1]
 
-    if post.nil? then
+    if port.nil? then
       port = 22
     end
 

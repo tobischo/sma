@@ -1,4 +1,5 @@
 Sanmgmtappl::Application.routes.draw do
+
   match "san_communications/call/:id/:method" => "san_communications#call"
 
   get "zone/add"
