@@ -1,6 +1,12 @@
 class SwitchController < ApplicationController
   def add
-    s = Switch.create(:name => params[:name], :switchType => params[:switchType], :address => params[:address], :description => params[:description])
+    s = Switch.create(:name => params[:name],
+                      :switchType => params[:switchType],
+                      :address => params[:address],
+                      :description => params[:description],
+                      :username => params[:loginname],
+                      :password => params[:loginpassword],
+                      :fwVersion => params[:fwVersion])
     
     if s then
       flash[:notice] = "New switch added"
@@ -17,6 +23,25 @@ class SwitchController < ApplicationController
     flash[:notice] = "Switch has been remnoved"
     
     redirect_to :controller => :switch, :action => :show
+  end
+  
+  def edit
+    @switch = Switch.find(params[:id])
+  end
+  
+  def update
+    switch = Switch.find(params[:id])
+    switch.name = params[:name];
+    switch.switchType = params[:switchType];
+    switch.address = params[:address];
+    switch.description = params[:description];
+    switch.username = params[:loginname];
+    switch.password = params[:loginpassword];
+    switch.fwVersion = params[:fwVersion];
+    
+    switch.save
+    
+    redirect_to :controller => :switch, :action => :show 
   end
 
   def new

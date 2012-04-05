@@ -6,6 +6,11 @@ class ZoneController < ApplicationController
   end
 
   def remove
+    Zones.destroy(param[:id])
+    
+    flash[:notice] = "Zone successfully removed"
+    
+    redirect_to :controller => :zone, :action => :show
   end
 
   def edit

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120127101537) do
+ActiveRecord::Schema.define(:version => 20120326074851) do
 
   create_table "servers", :force => true do |t|
     t.string   "name"
@@ -45,6 +45,9 @@ ActiveRecord::Schema.define(:version => 20120127101537) do
     t.datetime "updated_at"
     t.string   "description"
     t.string   "switchType"
+    t.string   "username"
+    t.string   "password",    :limit => nil
+    t.string   "fwVersion"
   end
 
   create_table "users", :force => true do |t|

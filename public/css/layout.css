@@ -3,6 +3,7 @@
 	padding: 1em 0;
 	text-align: center;
 }
+
 .navbar ul {
 	margin: 0;
 }
@@ -19,6 +20,7 @@
 .mainbody {
 	padding: 1em;
 	padding-bottom: 2em;
+	min-height: 450px;
 }
 
 .visuallyhidden {

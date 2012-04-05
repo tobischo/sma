@@ -1,0 +1,11 @@
+  <section class="mainbody grid_7 prefix_3 suffix_2">
+  	
+  <%= render :partial => 'shared/flash', :locals => {:flash => flash} %>
+     	
+    <header>
+      <h1>SAN Call Result - <%= params[:result] %></h1>
+    </header>
+    <section>
+	<%= @result %>
+    </section>
+  </section>

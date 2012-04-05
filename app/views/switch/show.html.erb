@@ -13,7 +13,7 @@
           <td class="grid_2">Address</td>
           <td class="grid_2">Type</td>
           <td class="grid_2">Description</td>
-          <td class="grid_1">Remove</td>
+          <td class="grid_1">Del/Edit</td>
         </tr>
       <% @switches.each do |switch| %>
         <tr>
@@ -21,7 +21,9 @@
           <td class="grid_2"><%= switch.address %></td>
           <td class="grid_2"><%= switch.switchType %></td>
           <td class="grid_2"><%= switch.description %></td>
-          <td class="grid_1"><%= link_to "Remove", :controller => :switch, :action => :remove, :id => switch.id %></td>
+          <td class="grid_1"><%= link_to "Del", :controller => :switch, :action => :remove, :id => switch.id %>
+          	<%= link_to "Edit", :controller => :switch, :action => :edit, :id => switch.id %>
+          </td>
         </tr>
       <% end %>
       </table>

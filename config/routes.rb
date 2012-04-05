@@ -1,4 +1,6 @@
 Sanmgmtappl::Application.routes.draw do
+  match "san_communications/call/:id/:method" => "san_communications#call"
+
   get "zone/add"
 
   get "zone/new"
@@ -32,6 +34,10 @@ Sanmgmtappl::Application.routes.draw do
   get "switch/new"
 
   get "switch/show"
+  
+  match "switch/edit/:id" => "switch#edit"
+  
+  match "switch/update/:id" => "switch#update"
 
   get "xml/generate"
 

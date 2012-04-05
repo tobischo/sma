@@ -1,0 +1,2 @@
+module SanCommunicationsHelper
+end
