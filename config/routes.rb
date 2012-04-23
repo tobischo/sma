@@ -41,6 +41,8 @@ Sanmgmtappl::Application.routes.draw do
   match "switch/update/:id" => "switch#update"
 
   get "xml/generate"
+  
+  post "xml/update"
 
   get "user/settings"
 

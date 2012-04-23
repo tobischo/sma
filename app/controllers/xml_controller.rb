@@ -15,5 +15,9 @@ class XmlController < ApplicationController
 
     render :layout => false
   end
+  
+  def update
+    
+  end
 
 end
