@@ -17,7 +17,11 @@ class XmlController < ApplicationController
   end
   
   def update
+    render :nothing => true
+
+    model = params[:model]
     
+    puts model
   end
 
 end

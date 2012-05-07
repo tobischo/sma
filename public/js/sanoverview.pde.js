@@ -145,17 +145,20 @@ function sendConnectionUpdate(){
 
   xml += "  </connectionList>\n</model>";
 
-  $.ajax({
-    type: 'POST',
-    url: '/xml/update',
-    data: { 
-      inputxml: escape(xml)
+
+  $.ajax({ 
+    async: 'false', 
+    cache: 'false', 
+    contentType: 'text/xml', 
+    data: xml, 
+    dataType: 'html', 
+    processData: false, 
+    type: 'POST', 
+    headers: {
+      'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
     },
-    contentType: 'text/XML',
-    processData: false,
-    async: false,
-    cache: false
-  });
+    url: '/xml/update'
+  }); 
 
 }
 
