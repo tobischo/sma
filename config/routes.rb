@@ -42,7 +42,7 @@ Sanmgmtappl::Application.routes.draw do
 
   get "xml/generate"
   
-  post "xml/update"
+  match "xml/update" => "xml#update"
 
   get "user/settings"
 
