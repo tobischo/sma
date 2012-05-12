@@ -21,6 +21,7 @@ ArrayList connectionelements = new ArrayList();
 HashMap widthMap = new HashMap();
 widthMap.put("storage", 600);
 widthMap.put("server", 80);
+widthMap.put("switch", 330);
 
 //icons
 int iconSize = 80;
@@ -28,11 +29,14 @@ String storage = "/img/hard_disk.png";
 String storageH = "/img/hard_diskHover.png";
 String server = "/img/server.png";
 String serverH = "/img/serverHover.png";
+String sanswitch = "/img/switch.png";
+String sanswitchH = "/img/switchHover.png";
 String trash = "/img/trash.png";
 PImage trashIco = loadImage(trash);
 HashMap iconMap = new HashMap();
 iconMap.put("storage",new Array(loadImage(storage),loadImage(storageH)));
 iconMap.put("server", new Array(loadImage(server),loadImage(serverH)));
+iconMap.put("switch", new Array(loadImage(sanswitch),loadImage(sanswitchH)));
 commitStr = "Commit";
 
 //temp connection
@@ -68,7 +72,7 @@ function initializeElementList(){
     for(int j = 0; j < elements.getChildCount(); j++){
       XMLElement element = elements.getChild(j);
       
-      if(elements.getName() == "serverList" || elements.getName() == "storageList"){
+      if(elements.getName() == "serverList" || elements.getName() == "storageList" || elements.getName() == "switchList"){
         String eName = element.getName();
         String eAtt = element.getStringAttribute("id"); 
 	    
@@ -89,9 +93,13 @@ function initializeElementList(){
 function setHeight(){
   XMLElement servers = xml.getChild(0);
   XMLElement storages = xml.getChild(1);
+  XMLElement switches = xml.getChild(2);
     
   if(storages.getChildCount() > servers.getChildCount()){
     cHeight = 30+150*storages.getChildCount();
+  }
+  else if(swiches.getChildCOunt() > storages.getChildCount() && swiches.getChildCOunt() > servers.getChildCount())
+    cHeight = 30+150*switches.getChildCOunt();
   }
   else{
     cHeight = 30+150*servers.getChildCount();
@@ -114,6 +122,8 @@ function drawElements(){
   textAlign(LEFT);
   text("Server",100,20);
 
+  text("Switch",320,40);
+  
   text(commitStr,225,20);
   
   textAlign(RIGHT);
@@ -194,6 +204,11 @@ class SANElement{
       textXPos = this.xPos+80;
       textYPos = this.yPos+100;
     }
+	else if(this.type == "switch"){
+	  align = LEFT;
+	  textXPos = this.xPos;
+	  textYPos = this.yPos+100;
+	}
     
     if(abs(this.xPos+40-mouseX) < 40 && abs(this.yPos+40-mouseY) < 40){
       icon = iconMap.get(this.type)[1];
@@ -274,6 +289,14 @@ class Connection{
       	xStart = e.getXPos()+72;
       	yStart = e.getYPos()+40;
       }
+	  if(e.getId() == this.fromId && e.getType()== "switch"){
+	    xStart = e.getXPos()+72;
+		yStart = e.getYPos()+40;
+	  }
+	  if(e.getId() == this.toId && e.getType()== "switch"){
+      	xStop = e.getXPos();
+      	yStop = e.getYPos()+40;
+	  }
       if(e.getId() == this.toId && e.getType() == "storage"){
       	xStop = e.getXPos();
       	yStop = e.getYPos()+40;
