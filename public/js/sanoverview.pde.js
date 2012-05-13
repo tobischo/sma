@@ -82,9 +82,11 @@ function initializeElementList(){
       }
       else if(elements.getName() == "connectionList"){
         String eFromId = element.getChild(0).getContent();
-        String eToId = element.getChild(1).getContent();  
+        String eFromType = element.getChild(0).getStringAttribute("type");
+        String eToId = element.getChild(1).getContent();
+        String eToType = element.getChild(1).getStringAttribute("type");  
         
-        connectionelements.add(new Connection(eFromId, eToId));
+        connectionelements.add(new Connection(eFromId, eFromType, eToId, eToType));
       }
     }
   } 
@@ -98,12 +100,13 @@ function setHeight(){
   if(storages.getChildCount() > servers.getChildCount()){
     cHeight = 30+150*storages.getChildCount();
   }
-  else if(swiches.getChildCOunt() > storages.getChildCount() && swiches.getChildCOunt() > servers.getChildCount())
-    cHeight = 30+150*switches.getChildCOunt();
+  else if(switches.getChildCount() > storages.getChildCount() && switches.getChildCount() > servers.getChildCount()){
+    cHeight = 30+150*switches.getChildCount();
   }
   else{
     cHeight = 30+150*servers.getChildCount();
   }
+
 }
 
 function drawElements(){
@@ -122,7 +125,7 @@ function drawElements(){
   textAlign(LEFT);
   text("Server",100,20);
 
-  text("Switch",320,40);
+  text("Switch",340,20);
   
   text(commitStr,225,20);
   
@@ -206,10 +209,10 @@ class SANElement{
     }
 	else if(this.type == "switch"){
 	  align = LEFT;
-	  textXPos = this.xPos;
+	  textXPos = this.xPos+10;
 	  textYPos = this.yPos+100;
 	}
-    
+   
     if(abs(this.xPos+40-mouseX) < 40 && abs(this.yPos+40-mouseY) < 40){
       icon = iconMap.get(this.type)[1];
     } 
@@ -242,20 +245,32 @@ class SANElement{
 
 class Connection{
   String fromId;
+  String fromType;
   String toId;
+  String toType;
   boolean marked = false;
   
-  Connection(String fromId, String toId){
+  Connection(String fromId, String fromType, String toId, String toType){
   	this.fromId = fromId;
+  	this.fromType = fromType;
   	this.toId = toId;
+  	this.toType = toType;
   }	
   
   String getFromId(){
   	return this.fromId;
   }
   
+  String getFromType(){
+  	return this.fromType;
+  }
+  
   String getToId(){
   	return this.toId;
+  }
+  
+  String getToType(){
+  	return this.toType;
   }
 
   boolean compareTo(Connection c){
@@ -281,23 +296,15 @@ class Connection{
   	float yStart = 0;
   	float xStop = 0;
   	float yStop = 0;
-  	
+
     for(int i = 0; i < sanelements.size(); i++){
       SANElement e = (SANElement) sanelements.get(i);
       
-      if(e.getId() == this.fromId && e.getType() == "server"){
+      if(e.getId() == this.fromId && e.getType() == this.fromType){
       	xStart = e.getXPos()+72;
       	yStart = e.getYPos()+40;
       }
-	  if(e.getId() == this.fromId && e.getType()== "switch"){
-	    xStart = e.getXPos()+72;
-		yStart = e.getYPos()+40;
-	  }
-	  if(e.getId() == this.toId && e.getType()== "switch"){
-      	xStop = e.getXPos();
-      	yStop = e.getYPos()+40;
-	  }
-      if(e.getId() == this.toId && e.getType() == "storage"){
+      if(e.getId() == this.toId && e.getType() == this.toType){
       	xStop = e.getXPos();
       	yStop = e.getYPos()+40;
       }      
@@ -367,14 +374,14 @@ void mouseClicked(){
         for(int j = 0; j < sanelements.size(); j++){
           SANElement e = (SANElement) sanelements.get(j);
       
-          if(e.getId() == c.fromId && e.getType() == "server"){
+          if(e.getId() == c.fromId && (e.getType() == "server" || e.getType() == "switch")){
       	    xStart = e.getXPos()+72;
       	    yStart = e.getYPos()+40;
           }
-          if(e.getId() == c.toId && e.getType() == "storage"){
+          if(e.getId() == c.toId && (e.getType() == "storage" || e.getType() == "switch")){
       	    xStop = e.getXPos();
        	    yStop = e.getYPos()+40;
-          }      
+          }    
         }
 	  
         for(int j = 1; j <= 200; j++){
@@ -402,11 +409,11 @@ void mouseClicked(){
       SANElement e = (SANElement) sanelements.get(i);
       if(abs(e.getXPos()+40-mouseX) <= 40 && abs(e.getYPos()+40-mouseY) <= 40){
       	if(e.getType() != connE.getType()){
-      	  if(e.getType() == "server"){
-            Connection nConn = new Connection(e.getId(),connE.getId());
+      	  if(e.getType() == "server" || e.getType == "switch"){
+            Connection nConn = new Connection(e.getId(),e.getType,connE.getId(),connE.getType());
           }
-          else if(e.getType() == "storage"){
-            Connection nConn = new Connection(connE.getId(),e.getId());
+          else if(e.getType() == "storage" || e.getType == "switch"){
+            Connection nConn = new Connection(connE.getId(),connE.getType(),e.getId(),e.getType());
           }
           
           for(int j = 0; j < connectionelements.size(); j++){

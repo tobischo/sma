@@ -10,8 +10,13 @@ class XmlController < ApplicationController
     @storage['1'] = "StorageA"
     @storage['2'] = "StorageB"
     
+    @switch = Hash.new
+    @switch['1'] = "SwitchA"
+    @switch['2'] = "SwitchB"
+    
     @connection = Array.new
-    @connection = [{:from => "1", :to => "2"}, {:from => "2", :to => "2"}]
+    @connection = [{:from => "1", :fromType => "server", :to => "2", :toType => "switch"}, 
+                   {:from => "2", :fromType => "switch", :to => "2", :toType => "storage"}]
 
     render :layout => false
   end

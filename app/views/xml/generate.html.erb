@@ -1,19 +1,24 @@
 <model>
   <serverList>
     <% @server.each do |key, value| %>
-    <server id="<%= key %>"><%= value%></server>
+    <server id="<%= key %>"><%= value %></server>
     <% end %>
   </serverList>
   <storageList>
     <% @storage.each do |key,value| %>
-    <storage id="<%= key %>"><%= value%></storage>
+    <storage id="<%= key %>"><%= value %></storage>
     <% end %>
   </storageList>
+  <switchList>
+    <% @switch.each do |key,value| %>
+    <switch id="<%= key %>"><%= value %></switch>
+    <% end %>
+  </switchList>
   <connectionList>
     <% @connection.each do |value| %>
     <connection>
-      <from><%= value[:from] %></from>
-      <to><%= value[:to] %></to>
+      <from type="<%= value[:fromType] %>"><%= value[:from] %></from>
+      <to type="<%= value[:toType] %>"><%= value[:to] %></to>
     </connection>
     <% end %>
   </connectionList>
