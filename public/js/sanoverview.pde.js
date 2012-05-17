@@ -40,9 +40,8 @@ commitStr = "Commit";
 
 //temp connection
 int mode = 0;
-SANElement connE;
-float tempX = 0;
-float tempY = 0;
+SANElement connE1;
+SANElement connE2;
 
 void setup(){
   setHeight();
@@ -136,12 +135,49 @@ function drawTempConn(){
   noFill();
  
   if(mode == 1){
-    if(connE.getType() == "server"){
+  	float tempX = 0;
+  	float tempY = 0;
+    if(connE1.getType() == "server"){
+      tempX = connE1.getXPos()+72;
+      tempY = connE1.getYPos()+40;
       bezier(tempX,tempY,abs(tempX-mouseX)*1/4+tempX,tempY,abs(tempX-mouseX)*3/4+tempX,mouseY,mouseX,mouseY);
     }
-    else if(connE.getType() == "storage"){
+    else if(connE1.getType() == "storage"){
+      tempX = connE1.getXPos();
+      tempY = connE1.getYPos()+40;
       bezier(mouseX,mouseY,tempX-abs(tempX-mouseX)*3/4,mouseY,tempX-abs(tempX-mouseX)*1/4,tempY,tempX,tempY);
     }
+  }
+  if(mode == 2){
+  	float xStart = 0;
+  	float yStart = 0;
+  	float xOverStop = 0;
+  	float yOverStop = 0;
+  	float xOverStart = 0;
+  	float yOverStart = 0;
+  	float xStop = 0;
+  	float yStop = 0;
+  	
+  	if(connE1.getType() == "server"){
+  	  xStart = connE1.getXPos()+72;
+  	  yStart = connE1.getYPos()+40;
+  	  xOverStop = connE2.getXPos()+4;
+      yOverStop = connE2.getYPos()+40;
+      xOverStart = connE2.getXPos()+78;
+      yOverStart = connE2.getYPos()+40;
+  	  bezier(xStart,yStart,abs(xOverStop-xStart)*1/4+xStart,yStart,abs(xOverStop-xStart)*3/4+xStart,yOverStop,xOverStop,yOverStop);
+  	  bezier(xOverStart, yOverStart,abs(xOverStart-mouseX)*1/4+xOverStart,yOverStart,abs(xOverStart-mouseX)*3/4+xOverStart,mouseY,mouseX,mouseY);
+  	}
+  	else if(connE1.getType() == "storage"){
+  	  xOverStop = connE2.getXPos()+4;
+      yOverStop = connE2.getYPos()+40;
+      xOverStart = connE2.getXPos()+78;
+      yOverStart = connE2.getYPos()+40;
+      xStop = connE1.getXPos();
+      yStop = connE1.getYPos()+40;
+      bezier(mouseX,mouseY,xOverStop-abs(xOverStop-mouseX)*3/4,mouseY,xOverStop-abs(xOverStop-mouseX)*1/4,yOverStop,xOverStop,yOverStop);
+      bezier(xOverStart, yOverStart, abs(xStop-xOverStart)*1/4+xOverStart,yOverStart,abs(xStop-xOverStart)*3/4+xOverStart,yStop,xStop,yStop);
+  	}
   }
 }
 
@@ -358,17 +394,10 @@ void mouseClicked(){
     for(int i = 0; i < sanelements.size(); i++){
       SANElement e = (SANElement) sanelements.get(i);
       if(abs(e.getXPos()+40-mouseX) <= 40 && abs(e.getYPos()+40-mouseY) <= 40){
-        if(e.getType() == "server"){
-      	  tempX = e.getXPos()+72;
-      	  tempY = e.getYPos()+40;
-      	}
-      	else if(e.getType() == "storage"){
-      	  tempX = e.getXPos();
-      	  tempY = e.getYPos()+40;
-      	}
-      	
-      	connE = e;
-      	mode = 1;
+   	    if(e.getType() == "storage" || e.getType() == "server"){
+      	  connE1 = e;
+      	  mode = 1;   	    	
+   	    }
       }
     }
 	
@@ -409,16 +438,31 @@ void mouseClicked(){
       }
     }
   }
+  else if(mode == 1){
+  	for(int i = 0; i < sanelements.size(); i++){
+  	  SANElement e = (SANElement) sanelements.get(i);
+  	  if(abs(e.getXPos()+40-mouseX) <= 40 && abs(e.getYPos()+40-mouseY) <= 40){
+  	  	if(e.getType() == "switch"){
+  	  		connE2 = e;
+  	  		mode = 2;
+  	  	}
+  	  }
+  	}
+  	if(connE2 == null){
+      mode = 0;
+      connE1 = null;
+  	}
+  }
   else{
     for(int i = 0; i < sanelements.size(); i++){
       SANElement e = (SANElement) sanelements.get(i);
       if(abs(e.getXPos()+40-mouseX) <= 40 && abs(e.getYPos()+40-mouseY) <= 40){
-      	if(e.getType() != connE.getType()){
-      	  if(e.getType() == "server" || e.getType == "switch"){
-            Connection nConn = new Connection(e.getId(),e.getType,connE.getId(),connE.getType());
+      	if(e.getType() != connE1.getType() && e.getType() != "switch"){
+      	  if(e.getType() == "server" && connE1.getType() == "storage"){
+            Connection nConn = new Connection(e.getId(),connE2.getId(),connE1.getId());
           }
-          else if(e.getType() == "storage" || e.getType == "switch"){
-            Connection nConn = new Connection(connE.getId(),connE.getType(),e.getId(),e.getType());
+          else if(e.getType() == "storage" && connE1.getType() == "server"){
+            Connection nConn = new Connection(connE1.getId(),connE2.getId(),e.getId());
           }
           
           for(int j = 0; j < connectionelements.size(); j++){
@@ -437,8 +481,8 @@ void mouseClicked(){
     }
       
     mode = 0;
-    connE = null;
-    tempX = 0;
-    tempY = 0;
+    connE1 = null;
+    connE2 = null;
   }
 }
+
