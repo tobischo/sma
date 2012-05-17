@@ -15,8 +15,8 @@ class XmlController < ApplicationController
     @switch['2'] = "SwitchB"
     
     @connection = Array.new
-    @connection = [{:from => "1", :fromType => "server", :to => "2", :toType => "switch"}, 
-                   {:from => "2", :fromType => "switch", :to => "2", :toType => "storage"}]
+    @connection = [{:from => "1", :over => "1", :to => "2"}, 
+                   {:from => "2", :over => "2", :to => "2"}]
 
     render :layout => false
   end

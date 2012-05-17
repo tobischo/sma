@@ -82,11 +82,10 @@ function initializeElementList(){
       }
       else if(elements.getName() == "connectionList"){
         String eFromId = element.getChild(0).getContent();
-        String eFromType = element.getChild(0).getStringAttribute("type");
-        String eToId = element.getChild(1).getContent();
-        String eToType = element.getChild(1).getStringAttribute("type");  
+        String eOverId = element.getChild(1).getContent();
+        String eToId = element.getChild(2).getContent();
         
-        connectionelements.add(new Connection(eFromId, eFromType, eToId, eToType));
+        connectionelements.add(new Connection(eFromId, eOverId, eToId));
       }
     }
   } 
@@ -152,7 +151,7 @@ function sendConnectionUpdate(){
   for(int i = connectionelements.size()-1; i >= 0; i--){
     Connection c = (Connection) connectionelements.get(i);
 	
-    xml += "    <connection>\n      <from>"+c.fromId+"</from>\n      <to>"+c.toId+"</to>\n    </connection>\n";
+    xml += "    <connection>\n      <from>"+c.fromId+"</from>\n      <over>"+c.overId+"</over>\n      <to>"+c.toId+"</to>\n    </connection>\n";
 
   }
 
@@ -245,36 +244,30 @@ class SANElement{
 
 class Connection{
   String fromId;
-  String fromType;
+  String overId;
   String toId;
-  String toType;
   boolean marked = false;
   
-  Connection(String fromId, String fromType, String toId, String toType){
+  Connection(String fromId, String overId String toId){
   	this.fromId = fromId;
-  	this.fromType = fromType;
+  	this.overId = overId;
   	this.toId = toId;
-  	this.toType = toType;
   }	
   
   String getFromId(){
   	return this.fromId;
   }
   
-  String getFromType(){
-  	return this.fromType;
+  String getOverId(){
+  	return this.overId;
   }
   
   String getToId(){
   	return this.toId;
   }
-  
-  String getToType(){
-  	return this.toType;
-  }
 
   boolean compareTo(Connection c){
-  	if(this.fromId == c.getFromId() && this.toId == c.getToId()){
+  	if(this.fromId == c.getFromId() && this.toId == c.getToId() && this.overId == c.getOverId()){
   	  return true;
   	}
   	else{
@@ -296,21 +289,32 @@ class Connection{
   	float yStart = 0;
   	float xStop = 0;
   	float yStop = 0;
+  	float xOverStart = 0;
+  	float yOverStart = 0;
+  	float xOverStop = 0;
+  	float yOverStop = 0;
 
     for(int i = 0; i < sanelements.size(); i++){
       SANElement e = (SANElement) sanelements.get(i);
       
-      if(e.getId() == this.fromId && e.getType() == this.fromType){
+      if(e.getId() == this.fromId && e.getType() == "server"){
       	xStart = e.getXPos()+72;
       	yStart = e.getYPos()+40;
       }
-      if(e.getId() == this.toId && e.getType() == this.toType){
+      if(e.getId() == this.getOverId && e$.getType == "switch"){
+      	xOverStop = e.getXPos();
+      	yOverStop = e.getYPos()+40;
+      	xOverStart = e.getXPos();+72;
+      	yOverStart = e.getYPos()+40;
+      }
+      if(e.getId() == this.toId && e.getType() == "storage"){
       	xStop = e.getXPos();
       	yStop = e.getYPos()+40;
       }      
     }
     
-    bezier(xStart,yStart,abs(xStop-xStart)*1/4+xStart,yStart,abs(xStop-xStart)*3/4+xStart,yStop,xStop,yStop);
+    bezier(xStart,yStart,abs(xOverStop-xStart)*1/4+xStart,yStart,abs(xOverStop-xStart)*3/4+xStart,yOverStop,xOverStop,yOverStop);
+    bezier(xOverStart, yOverStart, abs(xStop-xOverStart)*1/4+xOverStart,yOverStart,abs(xStop-xOverStart)*3/4+xOverStart,yStop,xStop,yStop);
 	
 	stroke(0);
   }

@@ -17,8 +17,9 @@
   <connectionList>
     <% @connection.each do |value| %>
     <connection>
-      <from type="<%= value[:fromType] %>"><%= value[:from] %></from>
-      <to type="<%= value[:toType] %>"><%= value[:to] %></to>
+      <from><%= value[:from] %></from>
+      <over><%= value[:over] %></over>
+      <to><%= value[:to] %></to>
     </connection>
     <% end %>
   </connectionList>
