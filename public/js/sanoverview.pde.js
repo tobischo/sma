@@ -16,7 +16,6 @@ $.ajax({
 ArrayList sanelements = new ArrayList();
 ArrayList connectionelements = new ArrayList();
 
-
 //icon position
 HashMap widthMap = new HashMap();
 widthMap.put("storage", 600);
@@ -40,7 +39,7 @@ iconMap.put("switch", new Array(loadImage(sanswitch),loadImage(sanswitchH)));
 commitStr = "Commit";
 
 //temp connection
-boolean mode = false;
+int mode = 0;
 SANElement connE;
 float tempX = 0;
 float tempY = 0;
@@ -81,10 +80,11 @@ function initializeElementList(){
         sanelements.add(new SANElement(eName, eAtt, eContent, widthMap.get(eName), 50+j*150));
       }
       else if(elements.getName() == "connectionList"){
+      	
         String eFromId = element.getChild(0).getContent();
         String eOverId = element.getChild(1).getContent();
         String eToId = element.getChild(2).getContent();
-        
+
         connectionelements.add(new Connection(eFromId, eOverId, eToId));
       }
     }
@@ -248,7 +248,7 @@ class Connection{
   String toId;
   boolean marked = false;
   
-  Connection(String fromId, String overId String toId){
+  Connection(String fromId, String overId, String toId){
   	this.fromId = fromId;
   	this.overId = overId;
   	this.toId = toId;
@@ -296,23 +296,24 @@ class Connection{
 
     for(int i = 0; i < sanelements.size(); i++){
       SANElement e = (SANElement) sanelements.get(i);
-      
+
       if(e.getId() == this.fromId && e.getType() == "server"){
       	xStart = e.getXPos()+72;
       	yStart = e.getYPos()+40;
       }
-      if(e.getId() == this.getOverId && e$.getType == "switch"){
-      	xOverStop = e.getXPos();
+      if(e.getId() == this.overId && e.getType() == "switch"){
+      	xOverStop = e.getXPos()+4;
       	yOverStop = e.getYPos()+40;
-      	xOverStart = e.getXPos();+72;
+      	xOverStart = e.getXPos()+78;
       	yOverStart = e.getYPos()+40;
+      	
       }
       if(e.getId() == this.toId && e.getType() == "storage"){
       	xStop = e.getXPos();
       	yStop = e.getYPos()+40;
       }      
     }
-    
+
     bezier(xStart,yStart,abs(xOverStop-xStart)*1/4+xStart,yStart,abs(xOverStop-xStart)*3/4+xStart,yOverStop,xOverStop,yOverStop);
     bezier(xOverStart, yOverStart, abs(xStop-xOverStart)*1/4+xOverStart,yOverStart,abs(xStop-xOverStart)*3/4+xOverStart,yStop,xStop,yStop);
 	
@@ -353,7 +354,7 @@ void mouseClicked(){
     //alert(mouseX + " " + mouseY);
   }
 
-  if(!mode){
+  if(mode == 0){
     for(int i = 0; i < sanelements.size(); i++){
       SANElement e = (SANElement) sanelements.get(i);
       if(abs(e.getXPos()+40-mouseX) <= 40 && abs(e.getYPos()+40-mouseY) <= 40){
@@ -367,12 +368,12 @@ void mouseClicked(){
       	}
       	
       	connE = e;
-      	mode = true;
+      	mode = 1;
       }
     }
 	
     for(int i = 0; i < connectionelements.size(); i++){
-      if(!stopConnLoop && !mode){
+      if(!stopConnLoop && mode == 0){
         Connection c = (Connection) connectionelements.get(i);
   
         for(int j = 0; j < sanelements.size(); j++){
@@ -435,7 +436,7 @@ void mouseClicked(){
       }
     }
       
-    mode = false;
+    mode = 0;
     connE = null;
     tempX = 0;
     tempY = 0;
