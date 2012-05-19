@@ -406,7 +406,6 @@ void mouseClicked(){
 	
     if(c.getMarked() && abs((cWidth*3/5)-mouseX) <= 10 && abs(20-mouseY) <= 10){
       String cId = c.getFromId() +";"+ c.getOverId() + ";" + c.getToId();
-      alert(cId);
       connectionelements.remove(cId);
       $(".connectionlist option").each(function(){
       	if(cId == $(this).val()){
