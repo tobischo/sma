@@ -14,7 +14,8 @@ $.ajax({
 });
 
 ArrayList sanelements = new ArrayList();
-ArrayList connectionelements = new ArrayList();
+//ArrayList connectionelements = new ArrayList();
+HashMap connectionelements = new HashMap();
 
 //icon position
 HashMap widthMap = new HashMap();
@@ -61,7 +62,7 @@ void draw(){
   
   drawElements();
   drawTempConn();
-}  
+}
 
 function initializeElementList(){
   for(int i = 0; i < xml.getChildCount(); i++){
@@ -72,19 +73,23 @@ function initializeElementList(){
       
       if(elements.getName() == "serverList" || elements.getName() == "storageList" || elements.getName() == "switchList"){
         String eName = element.getName();
-        String eAtt = element.getStringAttribute("id"); 
-	    
+        String eAtt = element.getStringAttribute("id");
         String eContent = element.getContent();
 	    
         sanelements.add(new SANElement(eName, eAtt, eContent, widthMap.get(eName), 50+j*150));
       }
       else if(elements.getName() == "connectionList"){
-      	
         String eFromId = element.getChild(0).getContent();
         String eOverId = element.getChild(1).getContent();
         String eToId = element.getChild(2).getContent();
 
-        connectionelements.add(new Connection(eFromId, eOverId, eToId));
+		Connection c = new Connection(eFromId, eOverId, eToId);
+		
+		String cId = c.getFromId() +";"+ c.getOverId() + ";" + c.getToId();
+		
+		$(".connectionlist").append("<option value=\""+cId+"\">"+cId+"</option>");
+		
+        connectionelements.put(cId,c);
       }
     }
   } 
@@ -104,7 +109,6 @@ function setHeight(){
   else{
     cHeight = 30+150*servers.getChildCount();
   }
-
 }
 
 function drawElements(){
@@ -113,10 +117,18 @@ function drawElements(){
     e.drawElement();
   }
   
-  for(int i = 0; i < connectionelements.size(); i++){
+  Iterator i = connectionelements.entrySet().iterator();
+  
+  while(i.hasNext()){
+  	Map.Entry me = (Map.Entry)i.next();
+  	Connection c = (Connection) me.getValue();
+  	c.drawElement();
+  }
+  
+  /*for(int i = 0; i < connectionelements.size(); i++){
     Connection c = (Connection) connectionelements.get(i);
     c.drawElement();
-  }
+  }*/
 
   stroke(0);
   
@@ -184,8 +196,14 @@ function drawTempConn(){
 function sendConnectionUpdate(){
   String xml = "<model>\n  <connectionList>\n";
 
-  for(int i = connectionelements.size()-1; i >= 0; i--){
-    Connection c = (Connection) connectionelements.get(i);
+  Iterator i = connectionelements.entrySet().iterator();
+  
+  while(i.hasNext()){
+  	Map.Entry me = (Map.Entry)i.next();
+  	Connection c = (Connection) me.getValue();
+  	
+  /*for(int i = connectionelements.size()-1; i >= 0; i--){
+    Connection c = (Connection) connectionelements.get(i);*/
 	
     xml += "    <connection>\n      <from>"+c.fromId+"</from>\n      <over>"+c.overId+"</over>\n      <to>"+c.toId+"</to>\n    </connection>\n";
 
@@ -317,7 +335,7 @@ class Connection{
 	if(this.marked){
       textAlign(LEFT);
   	  //text("removeMarked",(cWidth/2)-60,20);
-  	  image(trashIco,(cWidth/2)-10,10,20,20);
+  	  image(trashIco,(cWidth*3/5)-10,10,20,20);
 	  stroke(#e03e41);
 	}
   	  	
@@ -376,12 +394,25 @@ void mouseClicked(){
   float yStop = 0;
   float bezierX = 0;
   float bezierY = 0;
+
+  Iterator i = connectionelements.entrySet().iterator();
   
-  for(int i = connectionelements.size()-1; i >= 0; i--){
-    Connection c = (Connection) connectionelements.get(i);
+  while(i.hasNext()){
+  	Map.Entry me = (Map.Entry)i.next();
+  	Connection c = (Connection) me.getValue();
+  	  
+  /*for(int i = connectionelements.size()-1; i >= 0; i--){
+    Connection c = (Connection) connectionelements.get(i);*/
 	
-    if(c.getMarked() && abs((cWidth/2)-mouseX) <= 10 && abs(20-mouseY) <= 10){
-      connectionelements.remove(c);
+    if(c.getMarked() && abs((cWidth*3/5)-mouseX) <= 10 && abs(20-mouseY) <= 10){
+      String cId = c.getFromId() +";"+ c.getOverId() + ";" + c.getToId();
+      alert(cId);
+      connectionelements.remove(cId);
+      $(".connectionlist option").each(function(){
+      	if(cId == $(this).val()){
+      		$(this).remove();
+      	}
+      })
     }
   }
 
@@ -401,7 +432,7 @@ void mouseClicked(){
       }
     }
 	
-    for(int i = 0; i < connectionelements.size(); i++){
+    /*for(int i = 0; i < connectionelements.size(); i++){
       if(!stopConnLoop && mode == 0){
         Connection c = (Connection) connectionelements.get(i);
   
@@ -436,7 +467,7 @@ void mouseClicked(){
           }
         }
       }
-    }
+    }*/
   }
   else if(mode == 1){
   	for(int i = 0; i < sanelements.size(); i++){
@@ -465,16 +496,25 @@ void mouseClicked(){
             Connection nConn = new Connection(connE1.getId(),connE2.getId(),e.getId());
           }
           
-          for(int j = 0; j < connectionelements.size(); j++){
+          Iterator i = connectionelements.entrySet().iterator();
+  
+		  while(i.hasNext()){
+		  	Map.Entry me = (Map.Entry)i.next();
+		  	Connection c = (Connection) me.getValue();
+
+          /*for(int j = 0; j < connectionelements.size(); j++){
             Connection c = (Connection) connectionelements.get(j);
-          	
+          	*/
             if(nConn.compareTo(c)){
               newConn = false;
             }
           }
           
           if(newConn){
-            connectionelements.add(nConn);
+            //connectionelements.add(nConn);
+            String cId = nConn.getFromId() +";"+ nConn.getOverId() + ";" + nConn.getToId();
+            connectionelements.put(cId,nConn);
+            		$(".connectionlist").append("<option value=\""+cId+"\">"+cId+"</option>");
           }
         }
       }
@@ -486,3 +526,15 @@ void mouseClicked(){
   }
 }
 
+$(".connectionlist").change(function(){
+	$(".connectionlist option").each(function(){
+		Connection c = (Connection) connectionelements.get($(this).val());
+		if($(this).attr("selected")){
+			c.setMarked(true);
+		}
+		else{
+			c.setMarked(false);
+		}
+
+	})
+})
