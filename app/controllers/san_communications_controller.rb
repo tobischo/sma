@@ -28,7 +28,6 @@ class SanCommunicationsController < ApplicationController
     else
       @result = "No such method #{params[:method]}"
     end
-    
   end
   
 end

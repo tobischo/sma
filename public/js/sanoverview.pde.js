@@ -31,13 +31,13 @@ String server = "/img/server.png";
 String serverH = "/img/serverHover.png";
 String sanswitch = "/img/switch.png";
 String sanswitchH = "/img/switchHover.png";
-String trash = "/img/trash.png";
-PImage trashIco = loadImage(trash);
+//String trash = "/img/trash.png";
+//PImage trashIco = loadImage(trash);
 HashMap iconMap = new HashMap();
 iconMap.put("storage",new Array(loadImage(storage),loadImage(storageH)));
 iconMap.put("server", new Array(loadImage(server),loadImage(serverH)));
 iconMap.put("switch", new Array(loadImage(sanswitch),loadImage(sanswitchH)));
-commitStr = "Commit";
+//commitStr = "Commit";
 
 //temp connection
 int mode = 0;
@@ -111,18 +111,18 @@ function setHeight(){
   }
 }
 
-function drawElements(){
-  for(int i = 0; i < sanelements.size(); i++){
-    SANElement e = (SANElement) sanelements.get(i);
-    e.drawElement();
-  }
-  
+function drawElements(){  
   Iterator i = connectionelements.entrySet().iterator();
   
   while(i.hasNext()){
   	Map.Entry me = (Map.Entry)i.next();
   	Connection c = (Connection) me.getValue();
   	c.drawElement();
+  }
+  
+  for(int i = 0; i < sanelements.size(); i++){
+    SANElement e = (SANElement) sanelements.get(i);
+    e.drawElement();
   }
   
   /*for(int i = 0; i < connectionelements.size(); i++){
@@ -137,7 +137,7 @@ function drawElements(){
 
   text("Switch",340,20);
   
-  text(commitStr,225,20);
+  //text(commitStr,225,20);
   
   textAlign(RIGHT);
   text("Storage",cWidth-120,20);
@@ -210,7 +210,6 @@ function sendConnectionUpdate(){
   }
 
   xml += "  </connectionList>\n</model>";
-
 
   $.ajax({ 
     async: 'false', 
@@ -331,11 +330,12 @@ class Connection{
   
   void drawElement(){
   	noFill();
-	
+  	
 	if(this.marked){
-      textAlign(LEFT);
+      //textAlign(LEFT);
   	  //text("removeMarked",(cWidth/2)-60,20);
-  	  image(trashIco,(cWidth*3/5)-10,10,20,20);
+  	  //image(trashIco,(cWidth*3/5)-10,10,20,20);
+  	  strokeWeight(3);
 	  stroke(#e03e41);
 	}
   	  	
@@ -372,6 +372,7 @@ class Connection{
     bezier(xOverStart, yOverStart, abs(xStop-xOverStart)*1/4+xOverStart,yOverStart,abs(xStop-xOverStart)*3/4+xOverStart,yStop,xStop,yStop);
 	
 	stroke(0);
+	strokeWeight(1);
   }
   
   void setMarked(boolean markedStatus){
@@ -394,31 +395,6 @@ void mouseClicked(){
   float yStop = 0;
   float bezierX = 0;
   float bezierY = 0;
-
-  Iterator i = connectionelements.entrySet().iterator();
-  
-  while(i.hasNext()){
-  	Map.Entry me = (Map.Entry)i.next();
-  	Connection c = (Connection) me.getValue();
-  	  
-  /*for(int i = connectionelements.size()-1; i >= 0; i--){
-    Connection c = (Connection) connectionelements.get(i);*/
-	
-    if(c.getMarked() && abs((cWidth*3/5)-mouseX) <= 10 && abs(20-mouseY) <= 10){
-      String cId = c.getFromId() +";"+ c.getOverId() + ";" + c.getToId();
-      connectionelements.remove(cId);
-      $(".connectionlist option").each(function(){
-      	if(cId == $(this).val()){
-      		$(this).remove();
-      	}
-      })
-    }
-  }
-
-  if(abs(250-mouseX) <= 25 && abs(15-mouseY) <= 5){
-    sendConnectionUpdate();
-    //alert(mouseX + " " + mouseY);
-  }
 
   if(mode == 0){
     for(int i = 0; i < sanelements.size(); i++){
@@ -536,4 +512,30 @@ $(".connectionlist").change(function(){
 		}
 
 	})
+})
+
+$("#commit").click(function(){
+  sendConnectionUpdate();
+})
+
+$("#delete").click(function(){
+  Iterator i = connectionelements.entrySet().iterator();
+  
+  while(i.hasNext()){
+   Map.Entry me = (Map.Entry)i.next();
+    Connection c = (Connection) me.getValue();
+      
+  /*for(int i = connectionelements.size()-1; i >= 0; i--){
+    Connection c = (Connection) connectionelements.get(i);*/
+	
+    if(c.getMarked()){
+      String cId = c.getFromId() +";"+ c.getOverId() + ";" + c.getToId();
+      connectionelements.remove(cId);
+      $(".connectionlist option").each(function(){
+        if(cId == $(this).val()){
+          $(this).remove();
+        }
+      })
+    }
+  }
 })
