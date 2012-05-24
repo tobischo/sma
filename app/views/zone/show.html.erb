@@ -1,2 +1,24 @@
-<h1>Zone#show</h1>
-<p>Find me in app/views/zone/show.html.erb</p>
+  <section class="mainbody grid_10 prefix_1 suffix_1">
+  	
+  <%= render :partial => 'shared/flash', :locals => {:flash => flash} %>
+     	
+    <header>
+      <h1>Zone overview</h1>
+    </header>
+    <section>
+      <%= link_to "Add new Zone", :controller => :zone, :action => :new %>
+      <table>
+        <tr class="head">
+          <td class="grid_2">Name</td>
+        </tr>
+      <% @zones.each do |zone| %>
+        <tr>
+          <td class="grid_2"><%= zone.name %></td>
+          <td class="grid_1"><%= link_to "Del", :controller => :zone, :action => :remove, :id => zone.id %>
+          	<%= link_to "Edit", :controller => :zone, :action => :edit, :id => zone.id %>
+          </td>
+        </tr>
+      <% end %>
+      </table>
+    </section>
+  </section>

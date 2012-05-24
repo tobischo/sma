@@ -1,2 +1,22 @@
-<h1>Zone#edit</h1>
-<p>Find me in app/views/zone/edit.html.erb</p>
+  <section class="mainbody grid_4 prefix_4 suffix_4">
+  	
+  <%= render :partial => 'shared/flash', :locals => {:flash => flash} %>
+     	
+    <header>
+      <h1>Edit zone</h1>
+    </header>
+    <section>
+      <%= form_tag :controller => :zone, :action => :update, :id => params[:id] do %>
+        <table>
+          <tr>
+            <td><label>Name</label></td>
+            <td><%= text_field_tag 'name', @zone.name, :size => 20, :tabindex => 1 %></td>
+          </tr>	
+          <tr>
+            <td></td>
+            <td><%= submit_tag 'Update', :size => 20, :tabindex => 8 %></td>
+          </tr>
+        </table>
+      <% end%>
+    </section>
+  </section>

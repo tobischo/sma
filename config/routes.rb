@@ -2,23 +2,17 @@ Sanmgmtappl::Application.routes.draw do
 
   match "san_communications/call/:id/:method" => "san_communications#call"
 
-  get "zone/add"
+  post "zone/add"
+
+  match "zone/remove/:id" => "zone#remove"
 
   get "zone/new"
 
-  get "zone/remove" => "zone#remove"
-
-  get "zone/edit"
-
   get "zone/show"
 
-  get "connection/show"
-
-  match "connection/remove/:id" => "connection#remove"
-
-  get "connection/add"
-
-  get "connection/new"
+  match "zone/edit/:id" => "zone#edit"
+  
+  match "zone/update/:id" => "zone#update"
 
   get "storage/show"
 
@@ -55,6 +49,14 @@ Sanmgmtappl::Application.routes.draw do
   get "main/login"
 
   get "main/index"
+  
+  get "connection/show"
+
+  match "connection/remove/:id" => "connection#remove"
+
+  get "connection/add"
+
+  get "connection/new"
   
   root :to => "main#login"
 

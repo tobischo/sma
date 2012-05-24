@@ -1,5 +1,5 @@
 class ZoneMembers < ActiveRecord::Base
   
-  has_one :zone
+  has_one :Zone
   
 end

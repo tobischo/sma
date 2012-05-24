@@ -1,5 +1,5 @@
 class Zones < ActiveRecord::Base
   
-  has_many :zone_members
+  has_many :ZoneMembers
   
 end

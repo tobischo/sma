@@ -1,2 +1,22 @@
-<h1>Zone#new</h1>
-<p>Find me in app/views/zone/new.html.erb</p>
+  <section class="mainbody grid_4 prefix_4 suffix_4">
+  	
+  <%= render :partial => 'shared/flash', :locals => {:flash => flash} %>
+     	
+    <header>
+      <h1>Add new Zone</h1>
+    </header>
+    <section>
+      <%= form_tag :controller => :zone, :action => :add do %>
+        <table>
+          <tr>
+            <td><label>Name</label></td>
+            <td><%= text_field_tag 'name', '', :size => 20, :tabindex => 1 %></td>
+          </tr>	
+          <tr>
+            <td></td>
+            <td><%= submit_tag 'Add', :size => 20, :tabindex => 8 %></td>
+          </tr>
+        </table>
+      <% end%>
+    </section>
+  </section>
