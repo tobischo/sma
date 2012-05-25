@@ -1,7 +1,7 @@
 //canvas size
 int cWidth = 780;
 int cHeight = 500;
-//xml config
+//load xml config from backend
 XMLElement xml;
 
 $.ajax({
@@ -13,11 +13,12 @@ $.ajax({
   }
 });
 
+//list of sanelements -> server, storage and switch
 ArrayList sanelements = new ArrayList();
 //ArrayList connectionelements = new ArrayList();
 HashMap connectionelements = new HashMap();
 
-//icon position
+//icon position -> the x coordinate
 HashMap widthMap = new HashMap();
 widthMap.put("storage", 600);
 widthMap.put("server", 80);
@@ -44,6 +45,7 @@ int mode = 0;
 SANElement connE1;
 SANElement connE2;
 
+//setup code executed once at the beginning
 void setup(){
   setHeight();
   initializeElementList();
@@ -57,6 +59,7 @@ void setup(){
   size(cWidth,cHeight);   
 }  
   
+//draw function executed repeatedly for redrawing
 void draw(){
   background(255);
   
@@ -64,6 +67,7 @@ void draw(){
   drawTempConn();
 }
 
+//initalizes elementlist and connectionlist from xml data
 function initializeElementList(){
   for(int i = 0; i < xml.getChildCount(); i++){
     XMLElement elements = xml.getChild(i);
@@ -95,6 +99,7 @@ function initializeElementList(){
   } 
 }
 
+//defines canvas size from amount of elements
 function setHeight(){
   XMLElement servers = xml.getChild(0);
   XMLElement storages = xml.getChild(1);
@@ -111,6 +116,8 @@ function setHeight(){
   }
 }
 
+//method to loop through all elements and draw them -> first connections so any part that no part of the line overlaps a symbol
+//also draws text for Server, Switch and Storage
 function drawElements(){  
   Iterator i = connectionelements.entrySet().iterator();
   
@@ -124,11 +131,6 @@ function drawElements(){
     SANElement e = (SANElement) sanelements.get(i);
     e.drawElement();
   }
-  
-  /*for(int i = 0; i < connectionelements.size(); i++){
-    Connection c = (Connection) connectionelements.get(i);
-    c.drawElement();
-  }*/
 
   stroke(0);
   
@@ -143,6 +145,7 @@ function drawElements(){
   text("Storage",cWidth-120,20);
 }
 
+//draws temporary connection for connection creation from start element to mouse position
 function drawTempConn(){
   noFill();
  
@@ -193,6 +196,7 @@ function drawTempConn(){
   }
 }
 
+//send the connectionlist to the server
 function sendConnectionUpdate(){
   String xml = "<model>\n  <connectionList>\n";
 
@@ -201,12 +205,8 @@ function sendConnectionUpdate(){
   while(i.hasNext()){
   	Map.Entry me = (Map.Entry)i.next();
   	Connection c = (Connection) me.getValue();
-  	
-  /*for(int i = connectionelements.size()-1; i >= 0; i--){
-    Connection c = (Connection) connectionelements.get(i);*/
 	
     xml += "    <connection>\n      <from>"+c.fromId+"</from>\n      <over>"+c.overId+"</over>\n      <to>"+c.toId+"</to>\n    </connection>\n";
-
   }
 
   xml += "  </connectionList>\n</model>";
@@ -227,6 +227,8 @@ function sendConnectionUpdate(){
 
 }
 
+//class definition for Switch, Server and Storage elements
+//Object created upon loading the config
 class SANElement{
   String type;
   String id;
@@ -295,6 +297,8 @@ class SANElement{
   }
 }
 
+//Class for Connection 
+//Object created upon loading the config
 class Connection{
   String fromId;
   String overId;
@@ -332,9 +336,6 @@ class Connection{
   	noFill();
   	
 	if(this.marked){
-      //textAlign(LEFT);
-  	  //text("removeMarked",(cWidth/2)-60,20);
-  	  //image(trashIco,(cWidth*3/5)-10,10,20,20);
   	  strokeWeight(3);
 	  stroke(#e03e41);
 	}
@@ -384,6 +385,7 @@ class Connection{
   }
 }
 
+//method called upon click event
 void mouseClicked(){
 
   boolean newConn = true;
@@ -396,6 +398,7 @@ void mouseClicked(){
   float bezierX = 0;
   float bezierY = 0;
 
+  //identifies element upon first click
   if(mode == 0){
     for(int i = 0; i < sanelements.size(); i++){
       SANElement e = (SANElement) sanelements.get(i);
@@ -406,44 +409,8 @@ void mouseClicked(){
    	    }
       }
     }
-	
-    /*for(int i = 0; i < connectionelements.size(); i++){
-      if(!stopConnLoop && mode == 0){
-        Connection c = (Connection) connectionelements.get(i);
-  
-        for(int j = 0; j < sanelements.size(); j++){
-          SANElement e = (SANElement) sanelements.get(j);
-      
-          if(e.getId() == c.fromId && (e.getType() == "server" || e.getType() == "switch")){
-      	    xStart = e.getXPos()+72;
-      	    yStart = e.getYPos()+40;
-          }
-          if(e.getId() == c.toId && (e.getType() == "storage" || e.getType() == "switch")){
-      	    xStop = e.getXPos();
-       	    yStop = e.getYPos()+40;
-          }    
-        }
-	  
-        for(int j = 1; j <= 200; j++){
-          bezierX = bezierPoint(xStart,xStart+abs(xStop-xStart)*1/4,xStart+abs(xStop-xStart)*3/4,xStop, j/100);
-          bezierY = bezierPoint(yStart,yStart,yStop,yStop, j/100);
-		
-          if(abs(bezierX-mouseX) <= 10 && abs(bezierY-mouseY) <= 10){
-            if(c.getMarked()){
-              c.setMarked(false);
-            }
-            else{
-              c.setMarked(true);
-            }
-
-            stopConnLoop = true;
-			
-            break;
-          }
-        }
-      }
-    }*/
   }
+  //identifies element upon click on a switch -> second click
   else if(mode == 1){
   	for(int i = 0; i < sanelements.size(); i++){
   	  SANElement e = (SANElement) sanelements.get(i);
@@ -460,6 +427,7 @@ void mouseClicked(){
   	}
   }
   else{
+  	//handles third click and element creation or removal
     for(int i = 0; i < sanelements.size(); i++){
       SANElement e = (SANElement) sanelements.get(i);
       if(abs(e.getXPos()+40-mouseX) <= 40 && abs(e.getYPos()+40-mouseY) <= 40){
@@ -476,17 +444,12 @@ void mouseClicked(){
 		  while(i.hasNext()){
 		  	Map.Entry me = (Map.Entry)i.next();
 		  	Connection c = (Connection) me.getValue();
-
-          /*for(int j = 0; j < connectionelements.size(); j++){
-            Connection c = (Connection) connectionelements.get(j);
-          	*/
             if(nConn.compareTo(c)){
               newConn = false;
             }
           }
           
           if(newConn){
-            //connectionelements.add(nConn);
             String cId = nConn.getFromId() +";"+ nConn.getOverId() + ";" + nConn.getToId();
             connectionelements.put(cId,nConn);
             		$(".connectionlist").append("<option value=\""+cId+"\">"+cId+"</option>");
@@ -501,6 +464,7 @@ void mouseClicked(){
   }
 }
 
+//update connectionlist for marked or unmarked status upon click in the connectionlist beneath the canvas
 $(".connectionlist").change(function(){
 	$(".connectionlist option").each(function(){
 		Connection c = (Connection) connectionelements.get($(this).val());
@@ -514,20 +478,19 @@ $(".connectionlist").change(function(){
 	})
 })
 
+//sends out the connectionlist upon click on the commit button
 $("#commit").click(function(){
   sendConnectionUpdate();
 })
 
+//deletes the marked connections from list upon click on delete button
 $("#delete").click(function(){
   Iterator i = connectionelements.entrySet().iterator();
   
   while(i.hasNext()){
    Map.Entry me = (Map.Entry)i.next();
     Connection c = (Connection) me.getValue();
-      
-  /*for(int i = connectionelements.size()-1; i >= 0; i--){
-    Connection c = (Connection) connectionelements.get(i);*/
-	
+
     if(c.getMarked()){
       String cId = c.getFromId() +";"+ c.getOverId() + ";" + c.getToId();
       connectionelements.remove(cId);
