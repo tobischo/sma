@@ -18,7 +18,7 @@
           </tr>
           <tr>
             <td><label>Type</label></td>
-            <td><%= text_field_tag 'switchType', '', :size => 20, :tabindex => 3 %></td>
+            <td><%= select_tag("switchType", options_for_select(@driverList)) %></td>
           </tr>
           <tr>
             <td><label>Description</label></td>

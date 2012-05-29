@@ -7,6 +7,7 @@ class SwitchController < ApplicationController
                       :username => params[:loginname],
                       :password => params[:loginpassword],
                       :fwVersion => params[:fwVersion])
+                      
     
     if s then
       flash[:notice] = "New switch added"
@@ -26,6 +27,10 @@ class SwitchController < ApplicationController
   end
   
   def edit
+    drivers = Dir[File.join(Rails.root,'lib','driver','*.rb')]
+    @driverList = Array.new
+    drivers.each{|content| @driverList << content.split('/').last.split('.').first}
+    
     @switch = Switch.find(params[:id])
   end
   
@@ -45,6 +50,9 @@ class SwitchController < ApplicationController
   end
 
   def new
+    drivers = Dir[File.join(Rails.root,'lib','driver','*.rb')]
+    @driverList = Array.new
+    drivers.each{|content| @driverList << content.split('/').last.split('.').first}
   end
 
   def show
