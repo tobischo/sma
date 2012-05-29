@@ -19,5 +19,4 @@ class ApplicationController < ActionController::Base
     def current_user
       @_current_user ||= session[:current_user] && User.find(session[:current_user])
     end
- 
 end

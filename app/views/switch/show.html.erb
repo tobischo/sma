@@ -21,7 +21,7 @@
           <td class="grid_2"><%= switch.address %></td>
           <td class="grid_2"><%= switch.switchType %></td>
           <td class="grid_2"><%= switch.description %></td>
-          <td class="grid_1"><%= link_to "Del", :controller => :switch, :action => :remove, :id => switch.id %>
+          <td class="grid_1"><%= link_to "Del", {:controller => :switch, :action => :remove, :id => switch.id}, :confirm => 'Are you sure?' %>
           	<%= link_to "Edit", :controller => :switch, :action => :edit, :id => switch.id %>
           </td>
         </tr>

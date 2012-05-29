@@ -15,7 +15,7 @@
       <% @zones.each do |zone| %>
         <tr>
           <td class="grid_2"><%= zone.name %></td>
-          <td class="grid_1"><%= link_to "Del", :controller => :zone, :action => :remove, :id => zone.id %>
+          <td class="grid_1"><%= link_to "Del", {:controller => :zone, :action => :remove, :id => zone.id}, :confirm => 'Are you sure?' %>
           	<%= link_to "Edit", :controller => :zone, :action => :edit, :id => zone.id %>
           </td>
         </tr>

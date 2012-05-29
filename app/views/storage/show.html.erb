@@ -16,7 +16,7 @@
         <tr>
           <td class="grid_2"><%= storage.name %></td>
           <td class="grid_2"><%= storage.wwn %></td>
-          <td class="grid_1"><%= link_to "Remove", :controller => :storage, :action => :remove, :id => switch.id, :confirm => 'Are you sure?'%></td>
+          <td class="grid_1"><%= link_to "Remove", {:controller => :storage, :action => :remove, :id => storage.id}, :confirm => 'Are you sure?'%></td>
         </tr>
       <% end %>
       </table>

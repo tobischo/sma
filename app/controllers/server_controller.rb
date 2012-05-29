@@ -6,7 +6,7 @@ class ServerController < ApplicationController
   def remove
     Servers.delete(params[:id])
     
-    flash[:notice] = "Server has been remnoved from database and can be rediscovered"
+    flash[:notice] = "Server has been removed from database and can be rediscovered"
     
     redirect_to :controller => :server, :action => :show
     
