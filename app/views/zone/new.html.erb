@@ -13,8 +13,20 @@
             <td><%= text_field_tag 'name', '', :size => 20, :tabindex => 1 %></td>
           </tr>	
           <tr>
+            <td><label>Server</label></td>
+            <td><%= select_tag("server", options_for_select(@serverList), :tabindex => 2) %></td>
+          </tr>
+          <tr>
+            <td><label>Switch</label></td>
+            <td><%= select_tag("switch", options_for_select(@switchList), :tabindex => 3) %></td>
+          </tr>
+          <tr>
+            <td><label>Storage</label></td>
+            <td><%= select_tag("storage", options_for_select(@storageList), :tabindex => 4) %></td>
+          </tr>
+          <tr>
             <td></td>
-            <td><%= submit_tag 'Add', :size => 20, :tabindex => 8 %></td>
+            <td><%= submit_tag 'Add', :size => 20, :tabindex => 5 %></td>
           </tr>
         </table>
       <% end%>

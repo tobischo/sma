@@ -16,7 +16,7 @@
   </switchList>
   <connectionList>
     <% @connection.each do |value| %>
-    <connection>
+    <connection name="<%= value[:name] %>">
       <from><%= value[:from] %></from>
       <over><%= value[:over] %></over>
       <to><%= value[:to] %></to>

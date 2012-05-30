@@ -21,7 +21,7 @@ class SwitchController < ApplicationController
   def remove
     Switch.delete(params[:id])
     
-    flash[:notice] = "Switch has been remnoved"
+    flash[:notice] = "Switch has been removed"
     
     redirect_to :controller => :switch, :action => :show
   end

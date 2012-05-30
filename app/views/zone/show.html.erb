@@ -1,4 +1,4 @@
-  <section class="mainbody grid_10 prefix_1 suffix_1">
+  <section class="mainbody grid_8 prefix_2 suffix_2">
   	
   <%= render :partial => 'shared/flash', :locals => {:flash => flash} %>
      	
@@ -10,11 +10,23 @@
       <table>
         <tr class="head">
           <td class="grid_2">Name</td>
+          <td class="grid_3">ZoneMembers</td>
           <td class="grid_1">Del/Edit</td>
         </tr>
       <% @zones.each do |zone| %>
         <tr>
           <td class="grid_2"><%= zone.name %></td>
+          <td class="grid_3">
+            <% zone.zone_members.each do |zm| %>
+              <% if zm.elementType == "Server" then %>
+              <%= Servers.find(zm.refId).name %>
+              <% elsif zm.elementType == "Storage" then %>
+              <%= Storages.find(zm.refId).name %>
+              <% elsif zm.elementType == "Switch" then %>
+              <%= Switch.find(zm.refId).name %>
+              <% end %>
+              <br />
+            <% end %>
           <td class="grid_1"><%= link_to "Del", {:controller => :zone, :action => :remove, :id => zone.id}, :confirm => 'Are you sure?' %>
           	<%= link_to "Edit", :controller => :zone, :action => :edit, :id => zone.id %>
           </td>

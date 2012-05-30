@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(:version => 20120326074851) do
     t.string   "elementType"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "zone_id"
+    t.integer  "zones_id"
   end
 
   create_table "zones", :force => true do |t|

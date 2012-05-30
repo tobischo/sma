@@ -18,7 +18,7 @@
           </tr>
           <tr>
             <td><label>Type</label></td>
-            <td><%= select_tag("switchType", options_for_select(@driverList , @switch.switchType)) %></td>
+            <td><%= select_tag("switchType", options_for_select(@driverList , @switch.switchType), :tabindex => 3) %></td>
           </tr>
           <tr>
             <td><label>Description</label></td>

@@ -17,6 +17,7 @@ $.ajax({
 ArrayList sanelements = new ArrayList();
 //ArrayList connectionelements = new ArrayList();
 HashMap connectionelements = new HashMap();
+HashMap deletedelements = new HashMap();
 
 //icon position -> the x coordinate
 HashMap widthMap = new HashMap();
@@ -86,12 +87,13 @@ function initializeElementList(){
         String eFromId = element.getChild(0).getContent();
         String eOverId = element.getChild(1).getContent();
         String eToId = element.getChild(2).getContent();
+        String eName = element.getString("name");
 
 		Connection c = new Connection(eFromId, eOverId, eToId);
 		
 		String cId = c.getFromId() +";"+ c.getOverId() + ";" + c.getToId();
 		
-		$(".connectionlist").append("<option value=\""+cId+"\">"+cId+"</option>");
+		$(".connectionlist").append("<option value=\""+cId+"\">"+eName+"</option>");
 		
         connectionelements.put(cId,c);
       }
@@ -149,7 +151,7 @@ function drawElements(){
 function drawTempConn(){
   noFill();
  
-  if(mode == 1){
+  if(mode == 1){//step one of connection drawing
   	float tempX = 0;
   	float tempY = 0;
     if(connE1.getType() == "server"){
@@ -163,7 +165,7 @@ function drawTempConn(){
       bezier(mouseX,mouseY,tempX-abs(tempX-mouseX)*3/4,mouseY,tempX-abs(tempX-mouseX)*1/4,tempY,tempX,tempY);
     }
   }
-  if(mode == 2){
+  if(mode == 2){//step two of connectiond drawing (includes code the temp connections so far)
   	float xStart = 0;
   	float yStart = 0;
   	float xOverStop = 0;
@@ -196,9 +198,9 @@ function drawTempConn(){
   }
 }
 
-//send the connectionlist to the server
+//send the connectionList and the deletedList to the server to update the database
 function sendConnectionUpdate(){
-  String xml = "<model>\n  <connectionList>\n";
+  String xml = "<model><connectionList>";
 
   Iterator i = connectionelements.entrySet().iterator();
   
@@ -206,10 +208,21 @@ function sendConnectionUpdate(){
   	Map.Entry me = (Map.Entry)i.next();
   	Connection c = (Connection) me.getValue();
 	
-    xml += "    <connection>\n      <from>"+c.fromId+"</from>\n      <over>"+c.overId+"</over>\n      <to>"+c.toId+"</to>\n    </connection>\n";
+    xml += "<connection><from>"+c.fromId+"</from><over>"+c.overId+"</over><to>"+c.toId+"</to></connection>";
+  }
+  
+  xml += "</connectionList><deletedList>"
+  
+    i = deletedelements.entrySet().iterator();
+  
+  while(i.hasNext()){
+  	Map.Entry me = (Map.Entry)i.next();
+  	Connection c = (Connection) me.getValue();
+	
+    xml += "<connection><from>"+c.fromId+"</from><over>"+c.overId+"</over><to>"+c.toId+"</to></connection>";
   }
 
-  xml += "  </connectionList>\n</model>";
+  xml += "</deletedList></model>"
 
   $.ajax({ 
     async: 'false', 
@@ -452,7 +465,8 @@ void mouseClicked(){
           if(newConn){
             String cId = nConn.getFromId() +";"+ nConn.getOverId() + ";" + nConn.getToId();
             connectionelements.put(cId,nConn);
-            		$(".connectionlist").append("<option value=\""+cId+"\">"+cId+"</option>");
+            deletedelements.remove(cId);
+            $(".connectionlist").append("<option value=\""+cId+"\">"+cId+"</option>");
           }
         }
       }
@@ -493,6 +507,7 @@ $("#delete").click(function(){
 
     if(c.getMarked()){
       String cId = c.getFromId() +";"+ c.getOverId() + ";" + c.getToId();
+      deletedelements.put(cId,c);
       connectionelements.remove(cId);
       $(".connectionlist option").each(function(){
         if(cId == $(this).val()){

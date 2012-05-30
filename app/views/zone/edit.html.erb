@@ -11,10 +11,22 @@
           <tr>
             <td><label>Name</label></td>
             <td><%= text_field_tag 'name', @zone.name, :size => 20, :tabindex => 1 %></td>
-          </tr>	
+          </tr>
+          <tr>
+            <td><label>Server</label></td>
+            <td><%= select_tag("server", options_for_select(@serverList, @server), :tabindex => 2) %></td>
+          </tr>
+          <tr>
+            <td><label>Switch</label></td>
+            <td><%= select_tag("switch", options_for_select(@switchList, @switch), :tabindex => 3) %></td>
+          </tr>
+          <tr>
+            <td><label>Storage</label></td>
+            <td><%= select_tag("storage", options_for_select(@storageList, @storage), :tabindex => 4) %></td>
+          </tr>
           <tr>
             <td></td>
-            <td><%= submit_tag 'Update', :size => 20, :tabindex => 8 %></td>
+            <td><%= submit_tag 'Update', :size => 20, :tabindex => 5 %></td>
           </tr>
         </table>
       <% end%>
