@@ -27,12 +27,12 @@ widthMap.put("switch", 330);
 
 //icons
 int iconSize = 80;
-String storage = "/img/hard_disk.png";
-String storageH = "/img/hard_diskHover.png";
-String server = "/img/server.png";
-String serverH = "/img/serverHover.png";
-String sanswitch = "/img/switch.png";
-String sanswitchH = "/img/switchHover.png";
+String storage = subdir + "/img/hard_disk.png";
+String storageH = subdir + "/img/hard_diskHover.png";
+String server = subdir + "/img/server.png";
+String serverH = subdir + "/img/serverHover.png";
+String sanswitch = subdir + "/img/switch.png";
+String sanswitchH = subdir + "/img/switchHover.png";
 //String trash = "/img/trash.png";
 //PImage trashIco = loadImage(trash);
 HashMap iconMap = new HashMap();
