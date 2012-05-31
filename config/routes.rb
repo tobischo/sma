@@ -50,14 +50,6 @@ Sanmgmtappl::Application.routes.draw do
 
   get "main/index"
   
-  get "connection/show"
-
-  match "connection/remove/:id" => "connection#remove"
-
-  get "connection/add"
-
-  get "connection/new"
-  
   root :to => "main#login"
 
   # The priority is based upon order of creation:

@@ -1,9 +1,9 @@
 //canvas size
-int cWidth = 780;
-int cHeight = 500;
-//load xml config from backend
-XMLElement xml;
+int cWidth = 780; //default width
+int cHeight = 500; //default height
 
+XMLElement xml;
+//load xml config from backend
 $.ajax({
   async: false,
   cache: false,
@@ -15,7 +15,7 @@ $.ajax({
 
 //list of sanelements -> server, storage and switch
 ArrayList sanelements = new ArrayList();
-//ArrayList connectionelements = new ArrayList();
+//list of connections -> valid and deleted
 HashMap connectionelements = new HashMap();
 HashMap deletedelements = new HashMap();
 
@@ -89,12 +89,12 @@ function initializeElementList(){
         String eToId = element.getChild(2).getContent();
         String eName = element.getString("name");
 
-		Connection c = new Connection(eFromId, eOverId, eToId);
-		
-		String cId = c.getFromId() +";"+ c.getOverId() + ";" + c.getToId();
-		
-		$(".connectionlist").append("<option value=\""+cId+"\">"+eName+"</option>");
-		
+        Connection c = new Connection(eFromId, eOverId, eToId);
+        
+        String cId = c.getFromId() +";"+ c.getOverId() + ";" + c.getToId();
+        
+        $(".connectionlist").append("<option value=\""+cId+"\">"+eName+"</option>");
+        
         connectionelements.put(cId,c);
       }
     }

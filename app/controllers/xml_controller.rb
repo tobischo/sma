@@ -5,23 +5,16 @@ class XmlController < ApplicationController
     Servers.all.each do |server|
       @server[server.id] = server.name
     end
-    #@server['1'] = "ServerA"
-    #@server['2'] = "ServerB"
-    #@server['3'] = "ServerC"
     
     @storage = Hash.new
     Storages.all.each do |storage|
       @storage[storage.id] = storage.name 
     end
-    #@storage['1'] = "StorageA"
-    #@storage['2'] = "StorageB"
     
     @switch = Hash.new
     Switch.all.each do |switch|
       @switch[switch.id] = switch.name
     end
-    #@switch['1'] = "SwitchA"
-    #@switch['2'] = "SwitchB"
     
     @connection = Array.new
     Zones.all.each do |zone|
@@ -41,8 +34,6 @@ class XmlController < ApplicationController
       @connection << tmpCon
       
     end
-    #@connection = [{:from => "1", :over => "1", :to => "2"}, 
-    #               {:from => "2", :over => "2", :to => "2"}]
 
     render :layout => false
   end
@@ -61,7 +52,6 @@ class XmlController < ApplicationController
         check_conn(model[:connectionList][:connection])
       end
       
-      #puts model[:connectionList][:connection].class
     end
     
     if !model[:deletedList].nil? then #check if cdeletedlist is empty -> prevent error
