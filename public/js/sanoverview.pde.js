@@ -7,7 +7,7 @@ XMLElement xml;
 $.ajax({
   async: false,
   cache: false,
-  url: '/xml/generate',
+  url: subdir + '/xml/generate',
   success: function(res){
     xml = XMLElement.parse(res);
   }
@@ -235,7 +235,7 @@ function sendConnectionUpdate(){
     headers: {
       'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
     },
-    url: '/xml/update'
+    url: subdir + '/xml/update'
   }); 
 
 }
