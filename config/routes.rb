@@ -2,7 +2,7 @@ Sanmgmtappl::Application.routes.draw do
 
   match "san_communications/call/:id/:method" => "san_communications#call"
 
-  post "zone/add"
+  post "zone/create"
 
   match "zone/remove/:id" => "zone#remove"
 
@@ -22,7 +22,7 @@ Sanmgmtappl::Application.routes.draw do
 
   match "server/remove/:id" => "server#remove"
 
-  post "switch/add"
+  post "switch/create"
 
   match "switch/remove/:id" => "switch#remove"
 

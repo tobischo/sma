@@ -1,5 +1,5 @@
 class SwitchController < ApplicationController
-  def add
+  def create
     s = Switch.create(:name => params[:name],
                       :switchType => params[:switchType],
                       :address => params[:address],

@@ -1,6 +1,6 @@
 class ZoneController < ApplicationController
   
-  def add
+  def create
     #check if the parameter are set -> to prevent errors later on
     if params[:server].nil? then
       flash[:error] = "Server not set"
@@ -49,7 +49,7 @@ class ZoneController < ApplicationController
       return
     end
     
-    server = ZoneMembers.create(:refId => params[:server], :elementType => "Server")
+    server = ZoneMembers.create({:refId => params[:server], :elementType => "Server"})
     switch = ZoneMembers.create(:refId => params[:switch], :elementType => "Switch")
     storage = ZoneMembers.create(:refId => params[:storage], :elementType => "Storage")
     z.zone_members << server

@@ -17,15 +17,15 @@ ActiveRecord::Schema.define(:version => 20120326074851) do
     t.string   "name"
     t.string   "os"
     t.string   "wwn"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "sessions", :force => true do |t|
     t.string   "session_id", :null => false
     t.text     "data"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
@@ -34,15 +34,15 @@ ActiveRecord::Schema.define(:version => 20120326074851) do
   create_table "storages", :force => true do |t|
     t.string   "name"
     t.string   "wwn"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "switches", :force => true do |t|
     t.string   "name"
     t.string   "address"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
     t.string   "description"
     t.string   "switchType"
     t.string   "username"
@@ -55,22 +55,22 @@ ActiveRecord::Schema.define(:version => 20120326074851) do
     t.string   "encrypted_password"
     t.string   "salt"
     t.integer  "loginFails"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
   end
 
   create_table "zone_members", :force => true do |t|
     t.integer  "refId"
     t.string   "elementType"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
     t.integer  "zones_id"
   end
 
   create_table "zones", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
 end
