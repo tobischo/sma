@@ -6,5 +6,5 @@ class Zones < ActiveRecord::Base
                        :uniqueness   => true
   
   attr_accessible :name
-  attr_reader :id
+  attr_readonly :id
 end
