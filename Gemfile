@@ -19,10 +19,6 @@ end
 
 gem 'jquery-rails'
 
-gem 'execjs'
-gem 'therubyracer'
-
-
 gem "rspec-rails", :group => [:test, :development]
 group :test do
   gem "factory_girl_rails"

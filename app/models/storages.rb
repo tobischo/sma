@@ -4,5 +4,5 @@ class Storages < ActiveRecord::Base
                        :uniqueness   => true
   
   attr_accessible :name, :wwn
-  attr_reader :id
+  attr_readonly :id
 end

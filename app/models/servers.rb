@@ -4,5 +4,5 @@ class Servers < ActiveRecord::Base
                        :uniqueness   => true
   
   attr_accessible :name, :os, :wwn
-  attr_reader :id
+  attr_readonly :id
 end
